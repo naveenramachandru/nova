@@ -100,19 +100,18 @@ export default function Navbar() {
     window.open(url, "_blank");
   };
 
-  // Group menus to render before and after Financial Services
   const mainMenus = ["Digital Signatures", "USB Hardware Tokens", "Signing Solutions"];
   const secondaryMenus = ["Corporate Tech", "Partnerships"];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 text-white transition-all duration-300">
+    <nav className="fixed top-0 left-0 right-0 z-50 h-16 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-white transition-all duration-300">
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 flex items-center justify-between">
         
-        {/* Brand Logo */}
-        <div className="flex items-center space-x-1">
+        {/* Brand Logo & Mobile Toggle */}
+        <div className="flex items-center space-x-2">
           <button
             onClick={() => setMobileDrawerOpen(!mobileDrawerOpen)}
-            className="lg:hidden p-2 text-slate-300 hover:text-white transition"
+            className="lg:hidden p-2 text-slate-300 hover:text-white transition rounded-lg bg-slate-800/50"
             aria-label="Toggle Navigation Menu"
           >
             {mobileDrawerOpen ? <X size={22} /> : <Menu size={22} />}
@@ -126,9 +125,6 @@ export default function Navbar() {
               <span className="font-mono font-extrabold text-sm tracking-wider text-white group-hover:text-teal-400 transition">
                 NOVA VENTURE
               </span>
-              {/* <span className="text-[9px] text-slate-400 -mt-1 tracking-widest uppercase">
-                Hardware & PKI
-              </span> */}
             </div>
           </Link>
         </div>
@@ -142,7 +138,6 @@ export default function Navbar() {
             Home
           </Link>
 
-          {/* First Group of Nav Menus */}
           {mainMenus.map((category) => (
             <div
               key={category}
@@ -161,7 +156,7 @@ export default function Navbar() {
               </button>
 
               {activeMenu === category && (
-                <div className="absolute top-full left-0 w-[460px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute top-full left-0 w-[460px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-2">
                   <div className="col-span-2 flex items-center justify-between pb-2 border-b border-slate-800/80 mb-1 px-1">
                     <span className="text-[11px] font-bold text-teal-400 tracking-wider uppercase flex items-center gap-1.5">
                       <Sparkles size={12} /> {category}
@@ -188,7 +183,7 @@ export default function Navbar() {
             </div>
           ))}
 
-          {/* Financial Services Dropdown (Moved before Corporate Tech) */}
+          {/* Financial Services Dropdown */}
           <div
             className="relative"
             onMouseEnter={() => setActiveMenu("Financial Services")}
@@ -205,7 +200,7 @@ export default function Navbar() {
             </button>
 
             {activeMenu === "Financial Services" && (
-              <div className="absolute top-full -left-20 w-[640px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-5 grid grid-cols-4 gap-4 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="absolute top-full -left-20 w-[640px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-5 grid grid-cols-4 gap-4">
                 <div className="col-span-4 border-b border-slate-800 pb-2 flex justify-between items-center">
                   <span className="text-[11px] font-bold text-teal-400 tracking-wider uppercase flex items-center gap-1">
                     <CheckCircle2 size={12} /> Compliance & Financial Services
@@ -232,7 +227,6 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Remaining Nav Menus (Corporate Tech & Partnerships) */}
           {secondaryMenus.map((category) => (
             <div
               key={category}
@@ -251,7 +245,7 @@ export default function Navbar() {
               </button>
 
               {activeMenu === category && (
-                <div className="absolute top-full right-0 w-[460px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute top-full right-0 w-[460px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-2">
                   <div className="col-span-2 flex items-center justify-between pb-2 border-b border-slate-800/80 mb-1 px-1">
                     <span className="text-[11px] font-bold text-teal-400 tracking-wider uppercase flex items-center gap-1.5">
                       <Sparkles size={12} /> {category}
@@ -299,13 +293,14 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Fully Functional Mobile Navigation Drawer */}
+  
       {mobileDrawerOpen && (
-        <div className="lg:hidden fixed inset-0 top-16 bg-slate-950/95 backdrop-blur-2xl z-40 p-5 overflow-y-auto space-y-6 border-t border-slate-800 animate-in fade-in duration-200">
+        <div className="lg:hidden fixed inset-x-0 top-16 bottom-0 w-full h-[calc(100vh-4rem)] bg-slate-950 z-50 p-6 overflow-y-auto space-y-6 border-t border-slate-800 shadow-2xl">
           <div className="flex gap-2">
             <button
               onClick={handleWhatsAppClick}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-semibold"
+              className="flex-1 flex items-center justify-center gap-2 py-3 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-xl text-xs font-semibold"
             >
               <MessageSquare size={16} />
               <span>WhatsApp</span>
@@ -313,18 +308,18 @@ export default function Navbar() {
             <Link
               href="/page/dsc-apply"
               onClick={() => setMobileDrawerOpen(false)}
-              className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-blue-600 text-white rounded-xl text-xs font-semibold"
+              className="flex-1 flex items-center justify-center gap-2 py-3 bg-blue-600 text-white rounded-xl text-xs font-semibold"
             >
               <ShoppingCart size={16} />
               <span>Apply Now</span>
             </Link>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6 pb-32">
             <Link
               href="/"
               onClick={() => setMobileDrawerOpen(false)}
-              className="block py-2 text-sm font-bold text-white border-b border-slate-800"
+              className="block py-2.5 text-sm font-bold text-white border-b border-slate-800"
             >
               Home Overview
             </Link>
@@ -340,10 +335,10 @@ export default function Navbar() {
                       key={item.id}
                       href={`/page/${item.id}`}
                       onClick={() => setMobileDrawerOpen(false)}
-                      className="p-2 bg-slate-900/60 rounded-lg text-xs text-slate-300 hover:text-white border border-slate-800"
+                      className="p-3 bg-slate-900 rounded-xl text-xs text-slate-300 hover:text-white border border-slate-800"
                     >
                       <div className="font-medium text-slate-200">{item.title}</div>
-                      <div className="text-[10px] text-slate-500 truncate">{item.sub}</div>
+                      <div className="text-[10px] text-slate-500 truncate mt-0.5">{item.sub}</div>
                     </Link>
                   ))}
                 </div>
