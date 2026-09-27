@@ -84,9 +84,9 @@ export default function Footer() {
                 <Mail size={14} className="text-teal-600 shrink-0" />
                 <span>support@novaventure.in</span>
               </div>
-              <div className="flex items-center space-x-2">
-                <MapPin size={14} className="text-teal-600 shrink-0" />
-                <span>Enterprise PKI Hub, Tech Quarter, India</span>
+              <div className="flex items-start space-x-2">
+                <MapPin size={14} className="text-teal-600 shrink-0 mt-0.5" />
+                <span>First floor, Site No 222, CV2 Group Innovation Park, Sri Rama Nagara, Mittaganahalli, Kannur Post, Bengaluru, Karnataka, 560064</span>
               </div>
             </div>
           </div>
