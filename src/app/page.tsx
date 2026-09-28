@@ -33,10 +33,6 @@ import {
   BarChart3,
   Clock,
   Shield,
-  FileText,
-  Check,
-  Terminal,
-  Database,
   Key,
 } from "lucide-react";
 
@@ -69,6 +65,29 @@ export default function HomePage() {
   return (
     <div className="space-y-28 pb-24 pt-20 sm:pt-24 bg-gradient-to-b from-slate-50 via-teal-50/20 via-blue-50/20 to-slate-50 text-slate-900 overflow-hidden">
       
+      {/* JSON-LD Structured Data for Organization & Products */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": "Nova Venture",
+            "url": "https://novaventure.in",
+            "logo": "https://novaventure.in/logo.png",
+            "description": "Unified digital ecosystem for HYP2003 cryptographic USB tokens, legal eSign, ITR filing, and GST compliance solutions.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "IN"
+            },
+            "sameAs": [
+              "https://twitter.com/novaventure",
+              "https://linkedin.com/company/novaventure"
+            ]
+          })
+        }}
+      />
+
       {/* 1. HERO SECTION */}
       <section ref={heroRef} className="relative pb-20 overflow-hidden">
         <motion.div 
@@ -91,7 +110,7 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/10 to-blue-500/10 border border-teal-500/20 text-teal-900 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest shadow-sm backdrop-blur-md"
             >
               <Sparkles size={14} className="text-teal-600 animate-pulse" />
-              <span>THE DIGITAL BUSINESS ECOSYSTEM</span>
+              <span>THE DIGITAL BUSINESS & SECURITY ECOSYSTEM</span>
             </motion.div>
 
             <motion.h1 
@@ -100,7 +119,7 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl sm:text-6xl font-black tracking-tight leading-tight text-slate-900"
             >
-              Empowering. Scaling. Growing Your Business, <span className="bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Digitally.</span>
+              Secure Hardware Tokens, eSign & Tax Solutions, <span className="bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Unified.</span>
             </motion.h1>
 
             <motion.p 
@@ -109,7 +128,7 @@ export default function HomePage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-lg sm:text-2xl font-bold text-slate-700 tracking-tight"
             >
-              Everything Your Business Needs to Move Forward.
+              Everything Your Business Needs for Compliance, Security & Growth.
             </motion.p>
 
             <motion.div 
@@ -119,11 +138,11 @@ export default function HomePage() {
               className="bg-white/85 backdrop-blur-xl border border-white/80 p-6 sm:p-10 rounded-3xl text-left shadow-xl shadow-teal-900/5 space-y-6"
             >
               <div className="border-b border-slate-100 pb-4">
-                <h3 className="text-lg sm:text-xl font-black text-slate-900">
-                  Your Business Shouldn&apos;t Need a Different Vendor for Everything.
-                </h3>
+                <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                  Eliminate Disconnected Vendors for Tax, Compliance & Hardware Security.
+                </h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Eliminating the friction of disconnected compliance, tax, and security software.
+                  Integrate FIPS 140-3 HYP2003 cryptographic tokens with seamless eSign workflows and GST filing software.
                 </p>
               </div>
 
@@ -154,22 +173,22 @@ export default function HomePage() {
 
               <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
                 <p>
-                  Running an enterprise or small business shouldn&apos;t involve coordinating separate service providers for tax preparation, GST filing, digital signature workflows, and hardware security keys.
+                  Running modern enterprises requires coordinating secure cryptographic keys, tax preparation, GST return filing, and legally binding digital signature workflows without friction.
                 </p>
                 <p className="font-medium text-slate-700">
-                  Nova consolidates an expanding suite of digital products, financial services, eSign portals, and cryptographic security hardware into one streamlined platform.
+                  Nova consolidates an expanding suite of digital products, financial services, eSign portals, and FIPS-validated hardware security tokens into a single platform.
                 </p>
               </div>
 
               <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-xs font-bold text-teal-800">
-                  One platform for Digital Signatures, Financial Services, ITR Filings & Hardware Security Tokens.
+                  Official distributor and provider of HYP2003 tokens, eSign solutions, ITR filings & GST tools.
                 </p>
                 <Link
                   href="/products/hyp2003"
                   className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-500 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-teal-600/20 transition flex items-center justify-center gap-2 shrink-0 group"
                 >
-                  <span>Explore Hardware Token (HYP2003)</span>
+                  <span>Explore HYP2003 Hardware Token</span>
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -298,7 +317,6 @@ export default function HomePage() {
                 </div>
               </div>
               
-              {/* CSS Style Drawing / Icon Workspace */}
               <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden shadow-inner border border-teal-100 bg-gradient-to-br from-teal-900 via-slate-900 to-slate-950 p-6 flex flex-col justify-between text-white">
                 <div className="flex justify-between items-center border-b border-teal-500/20 pb-4">
                   <div className="flex items-center gap-2">
@@ -372,7 +390,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* CSS Style Drawing / Icon Workspace */}
               <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden shadow-inner border border-blue-100 bg-gradient-to-br from-blue-900 via-slate-900 to-slate-950 p-6 flex flex-col justify-between text-white">
                 <div className="flex justify-between items-center border-b border-blue-500/20 pb-4">
                   <div className="flex items-center gap-2">
@@ -443,7 +460,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* CSS Style Drawing / Icon Workspace */}
               <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden shadow-inner border border-indigo-100 bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 p-6 flex flex-col justify-between text-white">
                 <div className="flex justify-between items-center border-b border-indigo-500/20 pb-4">
                   <div className="flex items-center gap-2">
@@ -534,7 +550,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* CSS Style Drawing / Icon Workspace */}
               <div className="relative h-80 sm:h-96 rounded-2xl overflow-hidden shadow-2xl border border-slate-800 bg-slate-950 p-6 flex flex-col justify-between text-white">
                 <div className="flex justify-between items-center border-b border-slate-800 pb-4">
                   <div className="flex items-center gap-2">
@@ -566,7 +581,6 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          {/* CSS Graphic Box */}
           <div className="relative h-80 sm:h-[420px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-gradient-to-br from-teal-900 via-slate-900 to-slate-950 p-8 flex flex-col justify-between text-white">
             <div className="flex items-center justify-between border-b border-teal-500/20 pb-4">
               <div className="flex items-center gap-2">
@@ -579,22 +593,22 @@ export default function HomePage() {
             <div className="grid grid-cols-2 gap-4 my-auto">
               <div className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md space-y-1">
                 <PenTool className="text-teal-400" size={20} />
-                <h4 className="text-xs font-bold text-white">eSign Portal</h4>
+                <h3 className="text-xs font-bold text-white">eSign Portal</h3>
                 <p className="text-[10px] text-slate-400">Legal Digital Signing</p>
               </div>
               <div className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md space-y-1">
                 <Calculator className="text-blue-400" size={20} />
-                <h4 className="text-xs font-bold text-white">ITR & Tax</h4>
+                <h3 className="text-xs font-bold text-white">ITR & Tax</h3>
                 <p className="text-[10px] text-slate-400">Automated Computation</p>
               </div>
               <div className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md space-y-1">
                 <Receipt className="text-indigo-400" size={20} />
-                <h4 className="text-xs font-bold text-white">GST Accounting</h4>
+                <h3 className="text-xs font-bold text-white">GST Accounting</h3>
                 <p className="text-[10px] text-slate-400">GSTR-1 & 3B Filing</p>
               </div>
               <div className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md space-y-1">
                 <ShieldCheck className="text-emerald-400" size={20} />
-                <h4 className="text-xs font-bold text-white">HYP2003 Token</h4>
+                <h3 className="text-xs font-bold text-white">HYP2003 Token</h3>
                 <p className="text-[10px] text-slate-400">Hardware Security</p>
               </div>
             </div>
@@ -631,7 +645,7 @@ export default function HomePage() {
                     <item.icon size={20} className="text-teal-600" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
+                    <h3 className="text-sm font-bold text-slate-900">{item.title}</h3>
                     <p className="text-xs text-slate-600 mt-0.5">{item.desc}</p>
                   </div>
                 </motion.div>
@@ -644,8 +658,8 @@ export default function HomePage() {
       {/* 4. VISUAL CAPABILITY GRID */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center space-y-2 mb-12">
-          <h2 className="text-xs font-black text-teal-700 uppercase tracking-widest">Digital Platform Pillars</h2>
-          <p className="text-2xl sm:text-4xl font-black text-slate-900">Comprehensive Business Services</p>
+          <span className="text-xs font-black text-teal-700 uppercase tracking-widest">Digital Platform Pillars</span>
+          <h2 className="text-2xl sm:text-4xl font-black text-slate-900">Comprehensive Business Services</h2>
         </div>
         <motion.div 
           variants={containerVariants}
@@ -694,7 +708,7 @@ export default function HomePage() {
                   <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider">{card.badge}</span>
                   <card.icon size={28} className={card.text} />
                 </div>
-                <h4 className="text-lg font-black">{card.title}</h4>
+                <h3 className="text-lg font-black">{card.title}</h3>
               </div>
               <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                 <p className="text-xs text-slate-600 leading-relaxed">{card.desc}</p>
@@ -736,7 +750,6 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* CSS Graphic Box */}
             <div className="relative h-72 sm:h-80 rounded-2xl overflow-hidden border border-white/10 bg-slate-950 p-6 flex flex-col justify-between">
               <div className="flex justify-between items-center border-b border-white/10 pb-3">
                 <span className="text-xs font-mono text-teal-400">ENCRYPTION_MODULE.sec</span>
@@ -766,7 +779,7 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
             <motion.div whileHover={{ y: -4 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 space-y-2">
               <Cpu className="text-teal-400 mb-2" size={28} />
-              <h4 className="text-base font-bold text-white">Crypto Engine & Storage</h4>
+              <h3 className="text-base font-bold text-white">Crypto Engine & Storage</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
                 64 KB EEPROM memory for digital signing & encryption. Onboard private key generation ensures non-extractable certificate security.
               </p>
@@ -774,7 +787,7 @@ export default function HomePage() {
             </motion.div>
             <motion.div whileHover={{ y: -4 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 space-y-2">
               <HardDrive className="text-blue-400 mb-2" size={28} />
-              <h4 className="text-base font-bold text-white">Reliability & Memory Cycles</h4>
+              <h3 className="text-base font-bold text-white">Reliability & Memory Cycles</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
                 Tested for enterprise longevity with high rewrite capacity and automated middleware mounting partitions.
               </p>
@@ -782,7 +795,7 @@ export default function HomePage() {
             </motion.div>
             <motion.div whileHover={{ y: -4 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 space-y-2">
               <Server className="text-indigo-400 mb-2" size={28} />
-              <h4 className="text-base font-bold text-white">Cross-Platform API Support</h4>
+              <h3 className="text-base font-bold text-white">Cross-Platform API Support</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
                 Native compatibility across Windows, Linux, and macOS platforms with full system driver integration.
               </p>
@@ -824,7 +837,7 @@ export default function HomePage() {
               <div className="w-11 h-11 mx-auto rounded-xl bg-teal-50 flex items-center justify-center">
                 <item.icon size={22} className="text-teal-600" />
               </div>
-              <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
+              <h3 className="text-sm font-bold text-slate-900">{item.title}</h3>
               <p className="text-[11px] text-slate-500">{item.desc}</p>
             </motion.div>
           ))}
@@ -834,8 +847,8 @@ export default function HomePage() {
       {/* 6. WORKFLOW STEPPER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center space-y-2 mb-12">
-          <h2 className="text-xs font-bold text-teal-700 uppercase tracking-widest">Implementation Process</h2>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900">4 Steps to Integrated Operations</p>
+          <span className="text-xs font-bold text-teal-700 uppercase tracking-widest">Implementation Process</span>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900">4 Steps to Integrated Operations</h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {[
@@ -851,7 +864,7 @@ export default function HomePage() {
             >
               {idx < 3 && <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-teal-200 z-10" />}
               <span className="text-3xl font-black text-teal-600 font-mono">{item.step}</span>
-              <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
+              <h3 className="text-sm font-bold text-slate-900">{item.title}</h3>
               <p className="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
@@ -920,8 +933,8 @@ export default function HomePage() {
       {/* USE-CASE STRIP */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="text-center space-y-2 mb-10">
-          <h2 className="text-xs font-black text-teal-700 uppercase tracking-widest">Real-World Impact</h2>
-          <p className="text-2xl sm:text-3xl font-black text-slate-900">How Teams Use Nova Every Day</p>
+          <span className="text-xs font-black text-teal-700 uppercase tracking-widest">Real-World Impact</span>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900">How Teams Use Nova Every Day</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <motion.div whileHover={{ scale: 1.01 }} className="h-64 sm:h-72 rounded-3xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-950 via-teal-900 to-slate-900 p-8 flex flex-col justify-between text-white border border-teal-800/40">
@@ -950,8 +963,8 @@ export default function HomePage() {
       {/* 7. FAQ */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center space-y-2 mb-8">
-          <h2 className="text-xs font-bold text-teal-700 uppercase tracking-widest">Common Questions</h2>
-          <p className="text-2xl font-black text-slate-900">Frequently Asked Questions</p>
+          <span className="text-xs font-bold text-teal-700 uppercase tracking-widest">Common Questions</span>
+          <h2 className="text-2xl font-black text-slate-900">Frequently Asked Questions</h2>
         </div>
         <div className="space-y-3">
           {[
