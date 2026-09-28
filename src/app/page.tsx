@@ -34,11 +34,27 @@ import {
   Clock,
   Shield,
   Key,
+  Palette,
+  Film,
+  Layout,
 } from "lucide-react";
 
 export default function HomePage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"esign" | "itr" | "token" | "gst">("esign");
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Track global page scroll progress for continuous scrollytelling transforms
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Dynamic Scrollytelling Background Parallax Speeds
+  const bgLightY1 = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
+  const bgLightY2 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
+  const bgLightScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.3, 0.85]);
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroScroll } = useScroll({
@@ -46,26 +62,67 @@ export default function HomePage() {
     offset: ["start start", "end start"],
   });
 
-  const heroY = useTransform(heroScroll, [0, 1], ["0%", "25%"]);
-  const heroScale = useTransform(heroScroll, [0, 1], [1, 0.96]);
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "35%"]);
+  const heroScale = useTransform(heroScroll, [0, 1], [1, 0.92]);
+  const heroCardParallax = useTransform(heroScroll, [0, 1], ["0%", "-15%"]);
 
-  const containerVariants = {
+  // Reusable Scrollytelling Reveal Variants
+  const scrollyContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 },
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  const scrollyItem = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1, 
+      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const } 
+    },
+  };
+
+  // Split Text Mask Animation Variants (Reveal from bottom through hidden overflow container)
+  const maskContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.08, delayChildren: 0.15 },
+    },
+  };
+
+  const maskLine = {
+    hidden: { y: "110%", opacity: 0 },
+    visible: { 
+      y: "0%", 
+      opacity: 1, 
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } 
+    },
   };
 
   return (
-    <div className="space-y-28 pb-24 pt-20 sm:pt-24 bg-gradient-to-b from-slate-50 via-teal-50/20 via-blue-50/20 to-slate-50 text-slate-900 overflow-hidden">
+    <div ref={containerRef} className="space-y-32 pb-28 pt-20 sm:pt-24 bg-gradient-to-b from-slate-50 via-teal-50/20 via-blue-50/20 to-slate-50 text-slate-900 overflow-hidden relative">
       
-      {/* JSON-LD Structured Data for Organization & Products */}
+      {/* Background Animated Ambient Lights with Scrollytelling Parallax */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
+        <motion.div 
+          style={{ y: bgLightY1, scale: bgLightScale }}
+          animate={{ opacity: [0.25, 0.55, 0.25], x: [0, 70, 0], y: [0, 50, 0] }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-20 -left-20 w-[650px] h-[650px] bg-teal-400/30 rounded-full blur-[140px]"
+        />
+        <motion.div 
+          style={{ y: bgLightY2 }}
+          animate={{ opacity: [0.2, 0.5, 0.2], x: [0, -60, 0], y: [0, -70, 0] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+          className="absolute top-1/3 -right-20 w-[650px] h-[650px] bg-blue-400/30 rounded-full blur-[140px]"
+        />
+      </div>
+
+      {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -79,75 +136,79 @@ export default function HomePage() {
             "address": {
               "@type": "PostalAddress",
               "addressCountry": "IN"
-            },
-            "sameAs": [
-              "https://twitter.com/novaventure",
-              "https://linkedin.com/company/novaventure"
-            ]
+            }
           })
         }}
       />
 
-      {/* 1. HERO SECTION */}
-      <section ref={heroRef} className="relative pb-20 overflow-hidden">
-        <motion.div 
-          animate={{ scale: [1, 1.25, 1], opacity: [0.3, 0.6, 0.3], x: [0, 30, 0] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-10 -left-10 w-96 h-96 bg-teal-300/40 rounded-full blur-3xl -z-10 pointer-events-none"
-        />
-        <motion.div 
-          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.5, 0.2], y: [0, -30, 0] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-1/3 -right-10 w-96 h-96 bg-blue-300/40 rounded-full blur-3xl -z-10 pointer-events-none"
-        />
-
+      {/* 1. SCROLLYTELLING HERO SECTION WITH MASKED SPLIT TEXT */}
+      <section ref={heroRef} className="relative pb-10 overflow-hidden">
         <motion.div style={{ y: heroY, scale: heroScale }} className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-4xl mx-auto space-y-6">
+            
             <motion.div 
-              initial={{ opacity: 0, y: -15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/10 to-blue-500/10 border border-teal-500/20 text-teal-900 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest shadow-sm backdrop-blur-md"
+              initial={{ opacity: 0, scale: 0.7, y: -30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-indigo-500/10 border border-teal-500/30 text-teal-900 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest shadow-sm backdrop-blur-md"
             >
-              <Sparkles size={14} className="text-teal-600 animate-pulse" />
+              <Sparkles size={14} className="text-teal-600 animate-spin" style={{ animationDuration: "6s" }} />
               <span>THE DIGITAL BUSINESS & SECURITY ECOSYSTEM</span>
             </motion.div>
 
+            {/* Split Text Mask Heading */}
             <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-6xl font-black tracking-tight leading-tight text-slate-900"
+              variants={maskContainer}
+              initial="hidden"
+              animate="visible"
+              className="text-4xl sm:text-6xl font-black tracking-tight leading-tight text-slate-900 flex flex-col items-center justify-center gap-1"
             >
-              Secure Hardware Tokens, eSign & Tax Solutions, <span className="bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">Unified.</span>
+              <div className="overflow-hidden py-1">
+                <motion.span variants={maskLine} className="block">
+                  Secure Hardware Tokens, eSign & Tax Solutions,
+                </motion.span>
+              </div>
+              <div className="overflow-hidden py-1">
+                <motion.span variants={maskLine} className="block bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  Unified.
+                </motion.span>
+              </div>
             </motion.h1>
 
             <motion.p 
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
               className="text-lg sm:text-2xl font-bold text-slate-700 tracking-tight"
             >
               Everything Your Business Needs for Compliance, Security & Growth.
             </motion.p>
 
             <motion.div 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="bg-white/85 backdrop-blur-xl border border-white/80 p-6 sm:p-10 rounded-3xl text-left shadow-xl shadow-teal-900/5 space-y-6"
+              style={{ y: heroCardParallax }}
+              initial={{ opacity: 0, y: 50, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.9, delay: 0.45, ease: "easeOut" }}
+              className="bg-white/90 backdrop-blur-2xl border border-white/80 p-6 sm:p-10 rounded-3xl text-left shadow-2xl shadow-teal-900/10 space-y-6 relative overflow-hidden group"
             >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 via-blue-500 to-indigo-500" />
+
               <div className="border-b border-slate-100 pb-4">
-                <h2 className="text-lg sm:text-xl font-black text-slate-900">
+                <motion.h2 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="text-lg sm:text-xl font-black text-slate-900"
+                >
                   Eliminate Disconnected Vendors for Tax, Compliance & Hardware Security.
-                </h2>
+                </motion.h2>
                 <p className="text-xs sm:text-sm text-slate-500 mt-1">
                   Integrate FIPS 140-3 HYP2003 cryptographic tokens with seamless eSign workflows and GST filing software.
                 </p>
               </div>
 
               <motion.div 
-                variants={containerVariants}
+                variants={scrollyContainer}
                 initial="hidden"
                 animate="visible"
                 className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-bold text-slate-700"
@@ -161,11 +222,14 @@ export default function HomePage() {
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    className="bg-slate-50/90 border border-slate-200/80 p-3.5 rounded-2xl flex flex-col items-center justify-center text-center gap-2 shadow-sm hover:border-teal-400 hover:bg-teal-50/40 transition"
+                    variants={scrollyItem}
+                    whileHover={{ scale: 1.05, y: -6 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="bg-slate-50/90 border border-slate-200/80 p-3.5 rounded-2xl flex flex-col items-center justify-center text-center gap-2 shadow-sm hover:shadow-xl hover:shadow-teal-900/15 hover:border-teal-400 hover:bg-white transition-all duration-300 cursor-pointer"
                   >
-                    <item.icon size={20} className="text-teal-600" />
+                    <div className="w-9 h-9 rounded-xl bg-teal-100/60 flex items-center justify-center text-teal-600 transition-colors group-hover:bg-teal-500 group-hover:text-white">
+                      <item.icon size={20} />
+                    </div>
                     <span>{item.label}</span>
                   </motion.div>
                 ))}
@@ -184,13 +248,15 @@ export default function HomePage() {
                 <p className="text-xs font-bold text-teal-800">
                   Official distributor and provider of HYP2003 tokens, eSign solutions, ITR filings & GST tools.
                 </p>
-                <Link
-                  href="/products/hyp2003"
-                  className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-500 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-teal-600/20 transition flex items-center justify-center gap-2 shrink-0 group"
-                >
-                  <span>Explore HYP2003 Hardware Token</span>
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="/products/hyp2003"
+                    className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-500 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-teal-600/30 hover:shadow-2xl hover:shadow-teal-600/50 transition-all duration-300 flex items-center justify-center gap-2 shrink-0 group"
+                  >
+                    <span>Explore HYP2003 Hardware Token</span>
+                    <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
+                  </Link>
+                </motion.div>
               </div>
             </motion.div>
           </div>
@@ -199,7 +265,13 @@ export default function HomePage() {
 
       {/* 2. STATS OVERVIEW BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={scrollyContainer}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"
+        >
           {[
             { value: "2.6 Crore+", label: "HYP2003 Tokens Sold in India", icon: Award },
             { value: "30 Million+", label: "Tokens Deployed Globally", icon: Globe2 },
@@ -208,23 +280,36 @@ export default function HomePage() {
           ].map((stat, idx) => (
             <motion.div
               key={idx}
-              whileHover={{ y: -4 }}
-              className="bg-white/85 backdrop-blur-md border border-slate-200 p-6 rounded-3xl shadow-sm text-center space-y-1"
+              variants={scrollyItem}
+              whileHover={{ y: -8, scale: 1.03 }}
+              className="bg-white/85 backdrop-blur-md border border-slate-200 p-6 rounded-3xl shadow-sm hover:shadow-xl hover:shadow-teal-900/10 text-center space-y-1 hover:border-teal-300 transition-all duration-300"
             >
               <stat.icon className="mx-auto text-teal-600 mb-2" size={24} />
               <div className="text-2xl sm:text-3xl font-black text-slate-900 font-mono">{stat.value}</div>
               <p className="text-xs text-slate-600 font-semibold">{stat.label}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* TRUSTED BY / LOGOS STRIP */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center mb-8"
+        >
           <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Trusted by leading enterprises & CA firms across India</p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center opacity-70">
+        </motion.div>
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={scrollyContainer}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-6 items-center opacity-85"
+        >
           {[
             { name: "FinServe", color: "from-teal-500 to-teal-700" },
             { name: "TaxPro", color: "from-blue-500 to-blue-700" },
@@ -235,58 +320,190 @@ export default function HomePage() {
           ].map((logo, i) => (
             <motion.div
               key={i}
-              whileHover={{ scale: 1.05, opacity: 1 }}
-              className="bg-white border border-slate-200 rounded-2xl py-5 px-4 flex items-center justify-center shadow-sm"
+              variants={scrollyItem}
+              whileHover={{ scale: 1.08, opacity: 1, y: -4 }}
+              className="bg-white border border-slate-200 rounded-2xl py-5 px-4 flex items-center justify-center shadow-sm hover:shadow-lg hover:border-teal-300 cursor-pointer transition-all duration-300"
             >
-              <div className={`h-8 w-24 rounded-lg bg-gradient-to-r ${logo.color} flex items-center justify-center text-white text-[10px] font-black tracking-wider`}>
+              <div className={`h-8 w-24 rounded-lg bg-gradient-to-r ${logo.color} flex items-center justify-center text-white text-[10px] font-black tracking-wider shadow-sm`}>
                 {logo.name}
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
+      </section>
+
+      {/* CREATIVE VISUAL STYLES & ANIMATION SHOWCASE SECTION */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-3 mb-12"
+        >
+          <span className="text-xs font-extrabold uppercase tracking-widest text-teal-700 bg-teal-100/80 px-3 py-1 rounded-full border border-teal-200">
+            Creative & Artistic Direction
+          </span>
+          <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
+            Explore Our Creative Animation & Visual Styles
+          </h2>
+          <p className="text-sm text-slate-600 max-w-2xl mx-auto">
+            From expressive storytelling to polished digital assets, our design system supports diverse visual aesthetics tailored for immersive brand experiences.
+          </p>
+        </motion.div>
+
+        <motion.div 
+          variants={scrollyContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8"
+        >
+          {/* 1. Anime-Inspired */}
+          <motion.div
+            variants={scrollyItem}
+            whileHover={{ y: -10, scale: 1.03 }}
+            className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-pink-900/15 hover:border-pink-300 flex flex-col justify-between group transition-all duration-300"
+          >
+            <div className="relative h-48 w-full bg-gradient-to-br from-pink-950 via-purple-900 to-slate-900 p-6 flex flex-col justify-between text-white overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-36 h-36 bg-pink-500/20 rounded-full blur-2xl" />
+              <div className="flex justify-between items-center relative z-10">
+                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider text-pink-200">Anime-Inspired</span>
+                <Palette size={26} className="text-pink-400" />
+              </div>
+              <div className="relative z-10 space-y-1">
+                <h3 className="text-xl font-black">Expressive & Dynamic Art</h3>
+                <p className="text-xs text-pink-200/80">Action lines & dramatic lighting</p>
+              </div>
+            </div>
+            <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+              <ul className="space-y-2 text-xs text-slate-600 font-medium">
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-pink-600 shrink-0" /> Expressive characters and detailed eyes</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-pink-600 shrink-0" /> Dynamic poses and action lines</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-pink-600 shrink-0" /> Dramatic lighting and vibrant colors</li>
+              </ul>
+              <div className="pt-4 border-t border-slate-100 text-[11px] font-bold text-pink-700">
+                Great for stories, character art, action, fantasy, and emotional scenes
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 2. Stop-Motion */}
+          <motion.div
+            variants={scrollyItem}
+            whileHover={{ y: -10, scale: 1.03 }}
+            className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-amber-900/15 hover:border-amber-300 flex flex-col justify-between group transition-all duration-300"
+          >
+            <div className="relative h-48 w-full bg-gradient-to-br from-amber-950 via-orange-900 to-slate-900 p-6 flex flex-col justify-between text-white overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-36 h-36 bg-amber-500/20 rounded-full blur-2xl" />
+              <div className="flex justify-between items-center relative z-10">
+                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider text-amber-200">Stop-Motion</span>
+                <Film size={26} className="text-amber-400" />
+              </div>
+              <div className="relative z-10 space-y-1">
+                <h3 className="text-xl font-black">Handmade & Physical Feel</h3>
+                <p className="text-xs text-amber-200/80">Visible textures & warm cinema</p>
+              </div>
+            </div>
+            <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+              <ul className="space-y-2 text-xs text-slate-600 font-medium">
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-amber-600 shrink-0" /> Handmade, physical feel</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-amber-600 shrink-0" /> Visible textures and natural imperfections</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-amber-600 shrink-0" /> Warm, cinematic lighting setups</li>
+              </ul>
+              <div className="pt-4 border-t border-slate-100 text-[11px] font-bold text-amber-800">
+                Great for cute characters, fantasy, storytelling, toys, and whimsical scenes
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 3. Motion Graphics */}
+          <motion.div
+            variants={scrollyItem}
+            whileHover={{ y: -10, scale: 1.03 }}
+            className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-cyan-900/15 hover:border-cyan-300 flex flex-col justify-between group transition-all duration-300"
+          >
+            <div className="relative h-48 w-full bg-gradient-to-br from-cyan-950 via-blue-900 to-slate-900 p-6 flex flex-col justify-between text-white overflow-hidden">
+              <div className="absolute -top-10 -right-10 w-36 h-36 bg-cyan-500/20 rounded-full blur-2xl" />
+              <div className="flex justify-between items-center relative z-10">
+                <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider text-cyan-200">Motion Graphics</span>
+                <Layout size={26} className="text-cyan-400" />
+              </div>
+              <div className="relative z-10 space-y-1">
+                <h3 className="text-xl font-black">Clean Shapes & Typography</h3>
+                <p className="text-xs text-cyan-200/80">Modern & polished transitions</p>
+              </div>
+            </div>
+            <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+              <ul className="space-y-2 text-xs text-slate-600 font-medium">
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-cyan-600 shrink-0" /> Clean shapes, typography, and smooth transitions</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-cyan-600 shrink-0" /> Bold colors and graphic compositions</li>
+                <li className="flex items-center gap-2"><CheckCircle2 size={14} className="text-cyan-600 shrink-0" /> Modern, professional, polished appearance</li>
+              </ul>
+              <div className="pt-4 border-t border-slate-100 text-[11px] font-bold text-cyan-800">
+                Great for corporate explainers, UI presentations, modern branding, and data visualization
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* 3. INTERACTIVE SOLUTIONS TABBED SHOWCASE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-3 mb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-3 mb-10"
+        >
           <span className="text-xs font-extrabold uppercase tracking-widest text-teal-700 bg-teal-100/80 px-3 py-1 rounded-full border border-teal-200">
             Integrated Ecosystem Solutions
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
             End-to-End Execution for Modern Enterprises
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8">
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={scrollyContainer}
+          className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-8"
+        >
           {[
             { id: "esign", label: "eSign Solutions", icon: PenTool },
             { id: "itr", label: "Financial & ITR Filing", icon: Calculator },
             { id: "gst", label: "GST & Bookkeeping", icon: Receipt },
             { id: "token", label: "HYP2003 Token Hardware", icon: ShieldCheck },
           ].map((tab) => (
-            <button
+            <motion.button
               key={tab.id}
+              variants={scrollyItem}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
               onClick={() => setActiveTab(tab.id as any)}
               className={`px-5 py-3 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 transition-all duration-300 ${
                 activeTab === tab.id
-                  ? "bg-slate-900 text-white shadow-lg shadow-slate-900/20 scale-105"
-                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                  ? "bg-slate-900 text-white shadow-xl shadow-slate-900/25 scale-105"
+                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:shadow-md"
               }`}
             >
               <tab.icon size={16} className={activeTab === tab.id ? "text-teal-400" : "text-slate-500"} />
               <span>{tab.label}</span>
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         <AnimatePresence mode="wait">
           {activeTab === "esign" && (
             <motion.div
               key="esign"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.97 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
               className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
             >
               <div className="space-y-6">
@@ -356,10 +573,10 @@ export default function HomePage() {
           {activeTab === "itr" && (
             <motion.div
               key="itr"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.97 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
               className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
             >
               <div className="space-y-6">
@@ -426,10 +643,10 @@ export default function HomePage() {
           {activeTab === "gst" && (
             <motion.div
               key="gst"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.97 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
               className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
             >
               <div className="space-y-6">
@@ -500,10 +717,10 @@ export default function HomePage() {
           {activeTab === "token" && (
             <motion.div
               key="token"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              transition={{ duration: 0.4 }}
+              initial={{ opacity: 0, y: 30, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -30, scale: 0.97 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
               className="bg-white border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-xl grid grid-cols-1 lg:grid-cols-2 gap-10 items-center"
             >
               <div className="space-y-6">
@@ -540,13 +757,15 @@ export default function HomePage() {
                   </div>
                 </div>
                 <div className="pt-2">
-                  <Link
-                    href="/products/hyp2003"
-                    className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-xl text-xs font-bold transition shadow-md"
-                  >
-                    <span>View Product Datasheet Page</span>
-                    <ArrowUpRight size={14} />
-                  </Link>
+                  <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }} className="inline-block">
+                    <Link
+                      href="/products/hyp2003"
+                      className="inline-flex items-center gap-2 bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-xl text-xs font-bold transition shadow-md hover:shadow-xl hover:shadow-slate-900/30"
+                    >
+                      <span>View Product Datasheet Page</span>
+                      <ArrowUpRight size={14} />
+                    </Link>
+                  </motion.div>
                 </div>
               </div>
 
@@ -581,7 +800,13 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           
-          <div className="relative h-80 sm:h-[420px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-gradient-to-br from-teal-900 via-slate-900 to-slate-950 p-8 flex flex-col justify-between text-white">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="relative h-80 sm:h-[420px] rounded-3xl overflow-hidden shadow-xl border border-slate-200 bg-gradient-to-br from-teal-900 via-slate-900 to-slate-950 p-8 flex flex-col justify-between text-white"
+          >
             <div className="flex items-center justify-between border-b border-teal-500/20 pb-4">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="text-teal-400" size={22} />
@@ -617,9 +842,15 @@ export default function HomePage() {
               <span>Status: Active & Secure</span>
               <span className="text-teal-400">100% Compliant</span>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="space-y-6">
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="space-y-6"
+          >
             <span className="text-xs font-extrabold uppercase tracking-widest text-teal-700 bg-teal-100/80 px-3 py-1 rounded-full border border-teal-200">
               Why Choose Nova
             </span>
@@ -638,8 +869,12 @@ export default function HomePage() {
               ].map((item, i) => (
                 <motion.div
                   key={i}
-                  whileHover={{ x: 4 }}
-                  className="flex gap-4 items-start p-4 rounded-2xl bg-white border border-slate-200 shadow-sm"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.12 }}
+                  whileHover={{ x: 6, scale: 1.01 }}
+                  className="flex gap-4 items-start p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-xl hover:shadow-teal-900/10 hover:border-teal-300 transition-all duration-300"
                 >
                   <div className="w-10 h-10 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
                     <item.icon size={20} className="text-teal-600" />
@@ -651,18 +886,24 @@ export default function HomePage() {
                 </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 4. VISUAL CAPABILITY GRID */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-2 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-2 mb-12"
+        >
           <span className="text-xs font-black text-teal-700 uppercase tracking-widest">Digital Platform Pillars</span>
           <h2 className="text-2xl sm:text-4xl font-black text-slate-900">Comprehensive Business Services</h2>
-        </div>
+        </motion.div>
         <motion.div 
-          variants={containerVariants}
+          variants={scrollyContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
@@ -699,9 +940,9 @@ export default function HomePage() {
           ].map((card, i) => (
             <motion.div 
               key={i}
-              variants={itemVariants}
-              whileHover={{ y: -6 }}
-              className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-md flex flex-col justify-between group"
+              variants={scrollyItem}
+              whileHover={{ y: -10, scale: 1.03 }}
+              className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:shadow-teal-900/15 hover:border-teal-300 flex flex-col justify-between group transition-all duration-300"
             >
               <div className={`relative h-44 w-full bg-gradient-to-br ${card.color} p-6 flex flex-col justify-between text-white`}>
                 <div className="flex justify-between items-center">
@@ -714,7 +955,7 @@ export default function HomePage() {
                 <p className="text-xs text-slate-600 leading-relaxed">{card.desc}</p>
                 <div className={`pt-4 border-t border-slate-100 text-[11px] font-bold ${card.text} flex items-center justify-between`}>
                   <span>{card.cta}</span>
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </div>
             </motion.div>
@@ -724,7 +965,13 @@ export default function HomePage() {
 
       {/* SECURITY & COMPLIANCE */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-br from-slate-900 via-slate-950 to-teal-950 rounded-3xl p-8 sm:p-12 text-white overflow-hidden relative">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95, y: 40 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="bg-gradient-to-br from-slate-900 via-slate-950 to-teal-950 rounded-3xl p-8 sm:p-12 text-white overflow-hidden relative shadow-2xl"
+        >
           <div className="absolute top-0 right-0 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
             <div className="space-y-6">
@@ -742,10 +989,18 @@ export default function HomePage() {
                   { icon: Scale, label: "IT Act 2000 Compliant" },
                   { icon: Award, label: "CCA India Approved" },
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+                  <motion.div 
+                    key={i} 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    whileHover={{ scale: 1.02 }}
+                    className="flex items-center gap-3 bg-white/5 border border-white/10 hover:border-teal-400/50 rounded-xl px-4 py-3 transition"
+                  >
                     <item.icon size={18} className="text-teal-400" />
                     <span className="text-xs font-bold">{item.label}</span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -766,18 +1021,24 @@ export default function HomePage() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* 5. DATASHEET SPECIFICATIONS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-teal-950 text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="bg-gradient-to-r from-slate-900 via-slate-950 to-teal-950 text-white rounded-3xl p-8 sm:p-12 shadow-2xl relative overflow-hidden"
+        >
           <div className="text-center space-y-2 mb-10 relative z-10">
             <span className="text-xs font-bold text-teal-400 uppercase tracking-widest">Hardware Intelligence</span>
             <h2 className="text-2xl sm:text-3xl font-black">HYP2003 Technical Breakdown</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-            <motion.div whileHover={{ y: -4 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 space-y-2">
+            <motion.div whileHover={{ y: -8, scale: 1.02 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-teal-400/50 transition-all duration-300 space-y-2">
               <Cpu className="text-teal-400 mb-2" size={28} />
               <h3 className="text-base font-bold text-white">Crypto Engine & Storage</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
@@ -785,7 +1046,7 @@ export default function HomePage() {
               </p>
               <p className="text-[11px] text-teal-300 font-mono pt-2">• Algorithms: RSA 2048~4096, AES, SHA, ECDSA</p>
             </motion.div>
-            <motion.div whileHover={{ y: -4 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 space-y-2">
+            <motion.div whileHover={{ y: -8, scale: 1.02 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-blue-400/50 transition-all duration-300 space-y-2">
               <HardDrive className="text-blue-400 mb-2" size={28} />
               <h3 className="text-base font-bold text-white">Reliability & Memory Cycles</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
@@ -793,7 +1054,7 @@ export default function HomePage() {
               </p>
               <p className="text-[11px] text-blue-300 font-mono pt-2">• At least 500,000 cycles | 10 yr retention</p>
             </motion.div>
-            <motion.div whileHover={{ y: -4 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 space-y-2">
+            <motion.div whileHover={{ y: -8, scale: 1.02 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-indigo-400/50 transition-all duration-300 space-y-2">
               <Server className="text-indigo-400 mb-2" size={28} />
               <h3 className="text-base font-bold text-white">Cross-Platform API Support</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
@@ -802,12 +1063,18 @@ export default function HomePage() {
               <p className="text-[11px] text-indigo-300 font-mono pt-2">• MS CAPI, CNG, PKCS#11, PC/SC, CCID</p>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* INTEGRATIONS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-3 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-3 mb-12"
+        >
           <span className="text-xs font-extrabold uppercase tracking-widest text-teal-700 bg-teal-100/80 px-3 py-1 rounded-full border border-teal-200">
             Connected Ecosystem
           </span>
@@ -817,8 +1084,14 @@ export default function HomePage() {
           <p className="text-sm text-slate-600 max-w-2xl mx-auto">
             Native integrations with GSTN, income-tax portals, popular accounting software, and enterprise SSO providers keep your workflow uninterrupted.
           </p>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        </motion.div>
+        <motion.div 
+          variants={scrollyContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
+        >
           {[
             { icon: Cloud, title: "GSTN Portal", desc: "Direct return filing" },
             { icon: BarChart3, title: "AIS / Form 26AS", desc: "Auto data fetch" },
@@ -831,8 +1104,9 @@ export default function HomePage() {
           ].map((item, i) => (
             <motion.div
               key={i}
-              whileHover={{ y: -4, scale: 1.02 }}
-              className="bg-white border border-slate-200 rounded-2xl p-5 text-center space-y-2 shadow-sm hover:border-teal-300 hover:shadow-md transition"
+              variants={scrollyItem}
+              whileHover={{ y: -6, scale: 1.03 }}
+              className="bg-white border border-slate-200 rounded-2xl p-5 text-center space-y-2 shadow-sm hover:shadow-xl hover:shadow-teal-900/10 hover:border-teal-300 transition-all duration-300"
             >
               <div className="w-11 h-11 mx-auto rounded-xl bg-teal-50 flex items-center justify-center">
                 <item.icon size={22} className="text-teal-600" />
@@ -841,16 +1115,28 @@ export default function HomePage() {
               <p className="text-[11px] text-slate-500">{item.desc}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* 6. WORKFLOW STEPPER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-2 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-2 mb-12"
+        >
           <span className="text-xs font-bold text-teal-700 uppercase tracking-widest">Implementation Process</span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900">4 Steps to Integrated Operations</h2>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        </motion.div>
+        <motion.div 
+          variants={scrollyContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"
+        >
           {[
             { step: "01", title: "Select Services", desc: "Choose your needed service: ITR filing, GST accounting, eSign portal, or HYP2003 tokens." },
             { step: "02", title: "Digital KYC", desc: "Instant paperless identity authorization using official verification records." },
@@ -859,8 +1145,9 @@ export default function HomePage() {
           ].map((item, idx) => (
             <motion.div 
               key={idx}
-              whileHover={{ y: -4 }}
-              className="bg-white border border-slate-200 p-6 rounded-2xl space-y-2 shadow-sm relative"
+              variants={scrollyItem}
+              whileHover={{ y: -6, scale: 1.02 }}
+              className="bg-white border border-slate-200 p-6 rounded-2xl space-y-2 shadow-sm hover:shadow-xl hover:shadow-teal-900/10 hover:border-teal-300 transition-all duration-300 relative"
             >
               {idx < 3 && <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-teal-200 z-10" />}
               <span className="text-3xl font-black text-teal-600 font-mono">{item.step}</span>
@@ -868,20 +1155,32 @@ export default function HomePage() {
               <p className="text-xs text-slate-600 leading-relaxed">{item.desc}</p>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* TESTIMONIALS */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-3 mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-3 mb-12"
+        >
           <span className="text-xs font-extrabold uppercase tracking-widest text-teal-700 bg-teal-100/80 px-3 py-1 rounded-full border border-teal-200">
             Customer Stories
           </span>
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900">
             Trusted by CAs, CFOs & Growing Businesses
           </h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        </motion.div>
+        <motion.div 
+          variants={scrollyContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-6"
+        >
           {[
             {
               quote: "Nova cut our monthly GST and ITR cycle from 9 days to under 48 hours. The HYP2003 tokens work flawlessly across our 40+ machines.",
@@ -904,8 +1203,9 @@ export default function HomePage() {
           ].map((t, i) => (
             <motion.div
               key={i}
-              whileHover={{ y: -6 }}
-              className="bg-white border border-slate-200 rounded-3xl p-6 shadow-md flex flex-col justify-between"
+              variants={scrollyItem}
+              whileHover={{ y: -8, scale: 1.02 }}
+              className="bg-white border border-slate-200 rounded-3xl p-6 shadow-md hover:shadow-2xl hover:shadow-teal-900/10 hover:border-teal-300 transition-all duration-300 flex flex-col justify-between"
             >
               <div>
                 <Quote size={28} className="text-teal-200 mb-3" />
@@ -927,17 +1227,30 @@ export default function HomePage() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* USE-CASE STRIP */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-2 mb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-2 mb-10"
+        >
           <span className="text-xs font-black text-teal-700 uppercase tracking-widest">Real-World Impact</span>
           <h2 className="text-2xl sm:text-3xl font-black text-slate-900">How Teams Use Nova Every Day</h2>
-        </div>
+        </motion.div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <motion.div whileHover={{ scale: 1.01 }} className="h-64 sm:h-72 rounded-3xl overflow-hidden shadow-lg bg-gradient-to-br from-teal-950 via-teal-900 to-slate-900 p-8 flex flex-col justify-between text-white border border-teal-800/40">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            whileHover={{ scale: 1.02, y: -4 }} 
+            className="h-64 sm:h-72 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-teal-900/20 bg-gradient-to-br from-teal-950 via-teal-900 to-slate-900 p-8 flex flex-col justify-between text-white border border-teal-800/40 transition-all duration-300"
+          >
             <div className="flex justify-between items-center">
               <span className="text-[10px] font-bold uppercase tracking-widest bg-teal-500/30 text-teal-200 px-3 py-1 rounded-full border border-teal-400/30">CA Practices</span>
               <Users className="text-teal-400" size={24} />
@@ -947,7 +1260,14 @@ export default function HomePage() {
               <p className="text-xs text-slate-300">One dashboard, expert review queue, same-day e-verification.</p>
             </div>
           </motion.div>
-          <motion.div whileHover={{ scale: 1.01 }} className="h-64 sm:h-72 rounded-3xl overflow-hidden shadow-lg bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 p-8 flex flex-col justify-between text-white border border-blue-800/40">
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            whileHover={{ scale: 1.02, y: -4 }} 
+            className="h-64 sm:h-72 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-blue-900/20 bg-gradient-to-br from-blue-950 via-blue-900 to-slate-900 p-8 flex flex-col justify-between text-white border border-blue-800/40 transition-all duration-300"
+          >
             <div className="flex justify-between items-center">
               <span className="text-[10px] font-bold uppercase tracking-widest bg-blue-500/30 text-blue-200 px-3 py-1 rounded-full border border-blue-400/30">Enterprises</span>
               <Building2 className="text-blue-400" size={24} />
@@ -962,10 +1282,16 @@ export default function HomePage() {
 
       {/* 7. FAQ */}
       <section className="max-w-3xl mx-auto px-4 sm:px-6">
-        <div className="text-center space-y-2 mb-8">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-center space-y-2 mb-8"
+        >
           <span className="text-xs font-bold text-teal-700 uppercase tracking-widest">Common Questions</span>
           <h2 className="text-2xl font-black text-slate-900">Frequently Asked Questions</h2>
-        </div>
+        </motion.div>
         <div className="space-y-3">
           {[
             { q: "Can I manage ITR filings and eSign services on the same platform?", a: "Yes. Nova combines income tax preparation, GST returns, eSign portal workflows, and cryptographic token management under one ecosystem." },
@@ -975,7 +1301,15 @@ export default function HomePage() {
             { q: "How long does digital KYC and token issuance take?", a: "Most users complete paperless KYC and receive activated HYP2003 tokens with Class 3 certificates within the same business day when documentation is in order." },
             { q: "Can multiple signers collaborate on a single document?", a: "Absolutely. Nova’s eSign workflow supports sequential and parallel multi-party signing with full cryptographic audit trails and automated notifications." },
           ].map((faq, index) => (
-            <div key={index} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+            <motion.div 
+              key={index} 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.06 }}
+              whileHover={{ scale: 1.01 }}
+              className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:border-teal-300 transition-all duration-300"
+            >
               <button
                 onClick={() => setActiveFaq(activeFaq === index ? null : index)}
                 className="w-full text-left p-4 sm:p-5 flex justify-between items-center text-xs sm:text-sm font-bold text-slate-900"
@@ -996,7 +1330,7 @@ export default function HomePage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -1004,19 +1338,25 @@ export default function HomePage() {
       {/* 8. CTA */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div 
-          whileHover={{ scale: 1.005 }}
-          className="bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden"
+          initial={{ opacity: 0, scale: 0.96, y: 40 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          whileHover={{ scale: 1.01 }}
+          className="bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 rounded-3xl p-8 sm:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-teal-900/30 relative overflow-hidden"
         >
           <div className="space-y-1 relative z-10">
             <h3 className="text-2xl sm:text-3xl font-black">Consolidate Your Business Operations Today.</h3>
             <p className="text-xs sm:text-sm text-teal-100">Get started with Nova&apos;s eSign, Financial Services, ITR filing, and HYP2003 token solutions.</p>
           </div>
-          <Link 
-            href="/products/hyp2003" 
-            className="relative z-10 px-6 py-3.5 bg-white hover:bg-slate-50 text-teal-900 font-bold text-xs rounded-xl shadow-md transition shrink-0"
-          >
-            Explore HYP2003 Hardware
-          </Link>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="relative z-10 shrink-0">
+            <Link 
+              href="/products/hyp2003" 
+              className="px-6 py-3.5 bg-white hover:bg-slate-50 text-teal-900 font-bold text-xs rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 block"
+            >
+              Explore HYP2003 Hardware
+            </Link>
+          </motion.div>
         </motion.div>
       </section>
 
