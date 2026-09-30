@@ -122,21 +122,27 @@ export default function HomePage() {
         />
       </div>
 
-      {/* JSON-LD Structured Data */}
+      {/* JSON-LD Structured Data with SEO Keywords */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Nova Venture",
+            "@type": "WebSite",
+            "name": "Nova Venture - Best DSC Provider in India",
             "url": "https://novaventure.in",
-            "logo": "https://novaventure.in/logo.png",
-            "description": "Unified digital ecosystem for HYP2003 cryptographic USB tokens, legal eSign, ITR filing, and GST compliance solutions.",
-            "address": {
-              "@type": "PostalAddress",
-              "addressCountry": "IN"
-            }
+            "description": "Authorized CCA approved Class 3 DSC provider online in India. Buy FIPS certified HYP2003 cryptographic USB tokens, GST & ITR filing digital signatures, and legal eSign solutions.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://novaventure.in/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            },
+            "about": [
+              "Best DSC provider in India",
+              "FIPS 140-3 token provider India",
+              "Class 3 DSC for GST return filing India",
+              "Aadhaar based eSign API provider India"
+            ]
           })
         }}
       />
@@ -1332,6 +1338,117 @@ export default function HomePage() {
               </AnimatePresence>
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* NEW: SEO KEYWORD CLUSTER & REGIONAL SEARCH DIRECTORY SECTION */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-12 border-t border-slate-200/80">
+        <div className="space-y-8 text-slate-700">
+          
+          <div className="text-center space-y-2">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-teal-700 bg-teal-100/80 px-3 py-1 rounded-full border border-teal-200">
+              Authorized National Service & Regional Hubs
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
+              India&apos;s Trusted Digital Signature Certificate & Hardware Security Directory
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 max-w-3xl mx-auto">
+              As a leading authorized and CCA approved DSC provider in India, we deliver verified Class 3 digital signatures, FIPS 140-3 HYP2003 hardware tokens, and compliance automation for GST, MCA, and Income Tax e-filing nationwide.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
+            
+            {/* Column 1: Best DSC Provider in India & Regional Search */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+              <h3 className="font-bold text-slate-900 text-sm border-b pb-2 flex items-center gap-2">
+                <ShieldCheck size={16} className="text-teal-600" />
+                <span>Best DSC Provider in India</span>
+              </h3>
+              <ul className="space-y-1.5 text-slate-600 leading-relaxed">
+                <li>• Best DSC provider in India & near me</li>
+                <li>• Top digital signature certificate provider India</li>
+                <li>• Authorized & CCA approved DSC provider India</li>
+                <li>• Class 3 DSC provider online India</li>
+                <li>• Best digital signature company & lowest price DSC provider</li>
+                <li>• Fast DSC issuing authority & paperless DSC provider</li>
+                <li>• Trusted DSC vendor, corporate & CA partner DSC provider</li>
+                <li>• Bulk DSC provider for enterprises & immediate activation</li>
+                <li>• Digital signature certificate provider near me</li>
+                <li>• Local DSC registration center & authorized agent nearby</li>
+                <li>• Same day DSC delivery & offline token pickup near me</li>
+              </ul>
+            </div>
+
+            {/* Column 2: Best Token Provider in India & Hardware Security */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+              <h3 className="font-bold text-slate-900 text-sm border-b pb-2 flex items-center gap-2">
+                <Key size={16} className="text-blue-600" />
+                <span>Token Provider & Hardware</span>
+              </h3>
+              <ul className="space-y-1.5 text-slate-600 leading-relaxed">
+                <li>• Best token provider in India & near me</li>
+                <li>• FIPS 140-3 & HYP2003 cryptographic USB token provider</li>
+                <li>• USB token for digital signature & hardware supplier India</li>
+                <li>• Secure USB token dealer & wholesale crypto token provider</li>
+                <li>• Hardware token for income tax filing & GST USB token</li>
+                <li>• MCA portal compatible & non-extractable USB key provider</li>
+                <li>• Digital signature token distributors & emergency replacement</li>
+                <li>• Authorized HYP2003 token dealer & CA support desk near me</li>
+                <li>• Instant USB token pickup location & certified retailer</li>
+              </ul>
+            </div>
+
+            {/* Column 3: DSC for Tax, GST, MCA & Compliance */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+              <h3 className="font-bold text-slate-900 text-sm border-b pb-2 flex items-center gap-2">
+                <Calculator size={16} className="text-indigo-600" />
+                <span>Tax, GST, MCA & Compliance</span>
+              </h3>
+              <ul className="space-y-1.5 text-slate-600 leading-relaxed">
+                <li>• Class 3 DSC for GST return filing India</li>
+                <li>• Digital signature for income tax e-filing</li>
+                <li>• MCA21 company registration & director KYC DSC</li>
+                <li>• DGFT digital signature token for exporters</li>
+                <li>• e-Tendering & GeM portal digital signature token</li>
+                <li>• EPFO employer & IEC linked digital signature certificate</li>
+                <li>• Tax audit, Form 3CD & ICEGATE custom digital signature</li>
+                <li>• Company incorporation bundle & partnership firm DSC</li>
+                <li>• ITR-7 corporate filing & GSTR-9 annual return token</li>
+                <li>• SPICe+ form, RBI banking compliance & e-procurement token</li>
+              </ul>
+            </div>
+
+            {/* Column 4: eSign, Software & Multi-Product Integration */}
+            <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+              <h3 className="font-bold text-slate-900 text-sm border-b pb-2 flex items-center gap-2">
+                <PenTool size={16} className="text-emerald-600" />
+                <span>eSign & Software Integration</span>
+              </h3>
+              <ul className="space-y-1.5 text-slate-600 leading-relaxed">
+                <li>• Best eSign solution & Aadhaar based eSign API provider</li>
+                <li>• Legal electronic signature platform & IT Act compliant software</li>
+                <li>• Multi-party digital document signing & cloud eSign platform</li>
+                <li>• Automated GST and ITR filing software India</li>
+                <li>• Unified tax compliance and token portal</li>
+                <li>• Paperless workflow eSign software & secure authorization</li>
+                <li>• Enterprise cryptographic key management platform</li>
+                <li>• API integration for digital signatures in India</li>
+                <li>• Remote document signing & tamper-proof audit trail</li>
+              </ul>
+            </div>
+
+          </div>
+
+          <div className="bg-slate-900 text-slate-300 p-6 rounded-2xl text-center text-xs space-y-2">
+            <p className="font-bold text-white">
+              Official Distribution and Support Network for HYP2003, eMudhra, VSign, and XtraTrust Tokens across India.
+            </p>
+            <p className="text-slate-400">
+              For bulk CA partner pricing, enterprise API integration, or physical token replacement desks in your city, contact our central support team.
+            </p>
+          </div>
+
         </div>
       </section>
 
