@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Shield,
   Lock,
@@ -65,8 +66,14 @@ export default function Footer() {
           {/* Brand & Mission Column */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-teal-600 to-indigo-600 text-white flex items-center justify-center font-bold shadow-md shadow-teal-600/20">
-                <Shield size={18} />
+              <div className="w-8 h-8 rounded-xl overflow-hidden bg-slate-800 flex items-center justify-center shadow-md shadow-teal-600/20">
+                <Image 
+                  src="/logo.jpeg" 
+                  alt="Nova Venture Logo" 
+                  width={32} 
+                  height={32} 
+                  className="w-full h-full object-cover"
+                />
               </div>
               <span className="font-mono font-black text-sm tracking-widest text-slate-900">
                 NOVA VENTURE
@@ -75,24 +82,35 @@ export default function Footer() {
             <p className="text-xs text-slate-600 leading-relaxed pr-4 max-w-md">
               Nova Venture delivers enterprise Class 3 Digital Signature Certificates, high-security FIPS hardware USB tokens, cloud eSign infrastructure, and AI-driven business tools.
             </p>
-            <div className="space-y-2 text-xs text-slate-600 pt-2">
-              <div className="flex items-center space-x-2">
-                <PhoneCall size={14} className="text-teal-600 shrink-0" />
+            <div className="space-y-2.5 text-xs text-slate-600 pt-2">
+              <a 
+                href="tel:+919513396263" 
+                className="flex items-center space-x-2 hover:text-teal-700 transition group w-fit"
+              >
+                <PhoneCall size={14} className="text-teal-600 shrink-0 group-hover:scale-110 transition-transform" />
                 <span>+91 95133 96263 (Sales & Desk Support)</span>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Mail size={14} className="text-teal-600 shrink-0" />
+              </a>
+              <a 
+                href="mailto:support@novaventure.in" 
+                className="flex items-center space-x-2 hover:text-teal-700 transition group w-fit"
+              >
+                <Mail size={14} className="text-teal-600 shrink-0 group-hover:scale-110 transition-transform" />
                 <span>support@novaventure.in</span>
-              </div>
-              <div className="flex items-start space-x-2">
-                <MapPin size={14} className="text-teal-600 shrink-0 mt-0.5" />
+              </a>
+              <a 
+                href="https://maps.google.com/?q=CV2+Group+Innovation+Park+Mittaganahalli+Bengaluru" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-start space-x-2 hover:text-teal-700 transition group"
+              >
+                <MapPin size={14} className="text-teal-600 shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                 <span>First floor, Site No 222, CV2 Group Innovation Park, Sri Rama Nagara, Mittaganahalli, Kannur Post, Bengaluru, Karnataka, 560064</span>
-              </div>
+              </a>
             </div>
           </div>
 
           {/* Column 1: PKI & Certificates */}
-          <div>
+          <div className="lg:pt-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-teal-700 mb-4">
               PKI & Signatures
             </h4>
@@ -126,7 +144,7 @@ export default function Footer() {
           </div>
 
           {/* Column 2: Financial Desk */}
-          <div>
+          <div className="lg:pt-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-teal-700 mb-4">
               Financial Desk
             </h4>
@@ -160,7 +178,7 @@ export default function Footer() {
           </div>
 
           {/* Column 3: Ecosystem */}
-          <div>
+          <div className="lg:pt-2">
             <h4 className="text-xs font-bold uppercase tracking-wider text-teal-700 mb-4">
               Corporate & Partners
             </h4>

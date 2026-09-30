@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
-  Shield,
   ChevronDown,
   Menu,
   X,
@@ -118,8 +118,14 @@ export default function Navbar() {
           </button>
           
           <Link href="/" className="flex items-center space-x-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-teal-400 text-white flex items-center justify-center font-bold shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
-              <Shield size={20} className="text-white" />
+            <div className="w-9 h-9 rounded-xl overflow-hidden bg-slate-800 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform duration-200">
+              <Image 
+                src="/logo.jpeg" 
+                alt="Nova Venture Logo" 
+                width={36} 
+                height={36} 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="flex flex-col">
               <span className="font-mono font-extrabold text-sm tracking-wider text-white group-hover:text-teal-400 transition">
@@ -294,7 +300,6 @@ export default function Navbar() {
       </div>
 
       {/* Fully Functional Mobile Navigation Drawer */}
-  
       {mobileDrawerOpen && (
         <div className="lg:hidden fixed inset-x-0 top-16 bottom-0 w-full h-[calc(100vh-4rem)] bg-slate-950 z-50 p-6 overflow-y-auto space-y-6 border-t border-slate-800 shadow-2xl">
           <div className="flex gap-2">
