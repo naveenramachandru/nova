@@ -122,7 +122,7 @@ export default function HomePage() {
         />
       </div>
 
-      {/* Expanded JSON-LD Structured Data with High-Performance SEO Keyword Cluster (80+ Keywords) */}
+      {/* Expanded JSON-LD Structured Data with High-Performance SEO Keyword Cluster */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -134,40 +134,10 @@ export default function HomePage() {
             "logo": "https://novaventure.in/logo.png",
             "description": "Best DSC Provider in India & Authorized CCA approved Class 3 DSC, FIPS 140-3 HYP2003 cryptographic USB token supplier, legal eSign software, ITR filing, and GST compliance platform.",
             "keywords": [
-              // Best DSC Provider in India & Regional Search
-              "Best DSC provider in India", "Best DSC provider near me", "Top digital signature certificate provider India",
-              "Authorized DSC provider in India", "CCA approved DSC provider India", "Class 3 DSC provider online India",
-              "Best digital signature company in India", "Buy Class 3 DSC online India", "Fast DSC issuing authority India",
-              "Paperless DSC provider India", "Lowest price DSC provider India", "Trusted DSC vendor India",
-              "Corporate DSC provider India", "CA partner DSC provider India", "Bulk DSC provider for enterprises India",
-              "Immediate DSC activation India", "Digital signature certificate provider near me", "Local DSC registration center",
-              "Authorized digital signature agent near me", "Fast digital signature provider nearby", "Same day DSC delivery near me",
-              "Offline DSC token pickup near me", "Verified DSC partner in my city", "Trusted digital signature consultant near me",
-              "Local CA office for DSC token",
-              // Best Token Provider in India & Hardware Security
-              "Best token provider in India", "Best token provider near me", "FIPS 140-3 token provider India",
-              "HYP2003 cryptographic USB token provider India", "USB token for digital signature India", "Cryptographic hardware token supplier India",
-              "Best USB token for DSC in India", "CCA approved USB token provider", "Secure USB token dealer India",
-              "Wholesale USB crypto token provider India", "Hardware token for income tax filing India", "GST USB token provider India",
-              "MCA portal compatible USB token India", "Non-extractable USB cryptographic key provider", "Digital signature token distributors India",
-              "USB token provider near me", "Buy crypto token hardware near me", "DSC USB token shop nearby",
-              "Hardware token emergency replacement near me", "Authorized HYP2003 token dealer near me", "USB token vendor for CAs near me",
-              "Local hardware token support desk", "Computer token drive provider near me", "Instant USB token pickup location",
-              "Certified digital token retailer nearby",
-              // DSC for Tax, GST, MCA & Compliance (Long-Tail SEO)
-              "Class 3 DSC for GST return filing India", "Digital signature for income tax e-filing India", "MCA21 company registration DSC provider",
-              "DGFT digital signature token for exporters", "e-Tendering Class 3 DSC provider India", "GeM portal digital signature token",
-              "EPFO employer digital signature provider", "IEC linked digital signature certificate India", "Tax audit digital signature token provider",
-              "Company incorporation DSC bundle India", "Partnership firm digital signature provider", "LLP registration DSC and token combo",
-              "Director KYC digital signature provider", "Form 3CD digital signature token India", "ICEGATE custom digital signature provider",
-              "ITR-7 corporate filing DSC provider", "GSTR-9 annual return digital signature token", "SPICe+ form digital signature provider India",
-              "RBI and banking compliance DSC token", "E-procurement cryptographic token provider",
-              // eSign, Software & Multi-Product Integration
-              "Best eSign solution provider India", "Aadhaar based eSign API provider India", "Legal electronic signature platform India",
-              "IT Act compliant eSign software India", "Multi-party digital document signing India", "Cloud based eSign and DSC platform",
-              "Automated GST and ITR filing software India", "Unified tax compliance and token portal", "Paperless workflow eSign software India",
-              "Secure digital document authorization tool India", "Enterprise cryptographic key management platform", "API integration for digital signatures India",
-              "Remote document signing software India", "Tamper-proof audit trail eSign provider"
+              "Best DSC provider in India", "Authorized DSC provider in India", "CCA approved DSC provider India",
+              "Class 3 DSC provider online India", "FIPS 140-3 token provider India", "HYP2003 cryptographic USB token provider India",
+              "Best USB token for DSC in India", "Digital signature for income tax e-filing India", "MCA21 company registration DSC provider",
+              "Best eSign solution provider India", "Legal electronic signature platform India"
             ],
             "address": {
               "@type": "PostalAddress",
@@ -189,7 +159,7 @@ export default function HomePage() {
               className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-indigo-500/10 border border-teal-500/30 text-teal-900 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest shadow-sm backdrop-blur-md"
             >
               <Sparkles size={14} className="text-teal-600 animate-spin" style={{ animationDuration: "6s" }} />
-              <span>TOP DIGITAL SIGNATURE CERTIFICATE & HYP2003 TOKEN PROVIDER INDIA</span>
+              <span>TOP DIGITAL SIGNATURE CERTIFICATE & FIPS 140-3 HYP2003 TOKEN PROVIDER INDIA</span>
             </motion.div>
 
             {/* Split Text Mask Heading */}
@@ -201,7 +171,7 @@ export default function HomePage() {
             >
               <div className="overflow-hidden py-1">
                 <motion.span variants={maskLine} className="block">
-                  Authorized Class 3 DSC, Hardware Tokens & eSign,
+                  Authorized Class 3 DSC, FIPS 140-3 Tokens & eSign,
                 </motion.span>
               </div>
               <div className="overflow-hidden py-1">
@@ -254,7 +224,7 @@ export default function HomePage() {
                   { label: "Income Tax & ITR Filing", icon: Calculator },
                   { label: "GST & Invoicing", icon: Receipt },
                   { label: "Paperless eSign", icon: PenTool },
-                  { label: "HYP2003 Hardware", icon: ShieldCheck },
+                  { label: "FIPS 140-3 Hardware", icon: ShieldCheck },
                 ].map((item, idx) => (
                   <motion.div
                     key={idx}
@@ -276,7 +246,7 @@ export default function HomePage() {
                   As a leading authorized digital signature certificate vendor in India, we deliver secure cryptographic keys, MCA21 company incorporation bundles, GST return signing, and DGFT tokens instantly.
                 </p>
                 <p className="font-medium text-slate-700">
-                  Consolidate your digital workflows with FIPS 140-3 HYP2003 hardware tokens and IT Act compliant eSign API integrations.
+                  Consolidate your digital workflows with FIPS 140-3 certified HYP2003 hardware tokens and IT Act compliant eSign API integrations.
                 </p>
               </div>
 
@@ -289,7 +259,7 @@ export default function HomePage() {
                     href="/products/hyp2003"
                     className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-500 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-teal-600/30 hover:shadow-2xl hover:shadow-teal-600/50 transition-all duration-300 flex items-center justify-center gap-2 shrink-0 group"
                   >
-                    <span>Explore HYP2003 Hardware Token</span>
+                    <span>Explore FIPS 140-3 HYP2003 Token</span>
                     <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
                   </Link>
                 </motion.div>
@@ -512,7 +482,7 @@ export default function HomePage() {
             { id: "esign", label: "eSign Solutions", icon: PenTool },
             { id: "itr", label: "Financial & ITR Filing", icon: Calculator },
             { id: "gst", label: "GST & Bookkeeping", icon: Receipt },
-            { id: "token", label: "HYP2003 Token Hardware", icon: ShieldCheck },
+            { id: "token", label: "FIPS 140-3 HYP2003 Token", icon: ShieldCheck },
           ].map((tab) => (
             <motion.button
               key={tab.id}
@@ -765,16 +735,16 @@ export default function HomePage() {
                   <span>Hardware Security Spotlight</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-black text-slate-900">
-                  HYP2003 Cryptographic USB Token
+                  HYP2003 FIPS 140-3 Cryptographic USB Token
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   FIPS 140-3 Level 3 validated cryptographic USB token. Approved by CCA India for storing Class 3 Digital Signature Certificates securely with zero extractability.
                 </p>
                 <div className="grid grid-cols-2 gap-3 pt-1">
                   <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200">
-                    <span className="text-[10px] text-slate-500 font-bold uppercase">In Market Since</span>
-                    <div className="text-xl font-black text-slate-900 font-mono">2013</div>
-                    <p className="text-[10px] text-teal-700 font-semibold">13+ Years Presence</p>
+                    <span className="text-[10px] text-slate-500 font-bold uppercase">Security Standard</span>
+                    <div className="text-xl font-black text-slate-900 font-mono">FIPS 140-3</div>
+                    <p className="text-[10px] text-teal-700 font-semibold">Level 3 Certified</p>
                   </div>
                   <div className="bg-slate-50 p-3 rounded-2xl border border-slate-200">
                     <span className="text-[10px] text-slate-500 font-bold uppercase">Tokens Sold in India</span>
@@ -819,7 +789,7 @@ export default function HomePage() {
                     <div className="w-3 h-3 bg-teal-400 rounded-full animate-ping absolute top-2 right-2" />
                     <Cpu className="text-teal-300" size={24} />
                   </div>
-                  <span className="text-xs font-mono text-slate-300">HYP2003 USB Cryptographic Key</span>
+                  <span className="text-xs font-mono text-slate-300">HYP2003 FIPS 140-3 USB Key</span>
                 </div>
 
                 <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl flex items-center justify-between text-xs font-mono">
@@ -870,7 +840,7 @@ export default function HomePage() {
               <div className="bg-white/5 border border-white/10 p-4 rounded-2xl backdrop-blur-md space-y-1">
                 <ShieldCheck className="text-emerald-400" size={20} />
                 <h3 className="text-xs font-bold text-white">HYP2003 Token</h3>
-                <p className="text-[10px] text-slate-400">Hardware Security</p>
+                <p className="text-[10px] text-slate-400">FIPS 140-3 Hardware</p>
               </div>
             </div>
 
@@ -966,7 +936,7 @@ export default function HomePage() {
             },
             {
               badge: "Hardware",
-              title: "HYP2003 Token Hardware",
+              title: "FIPS 140-3 HYP2003 Token",
               desc: "FIPS 140-3 Level 3 hardware token for non-extractable key storage and digital signature issuance.",
               cta: "Read Datasheet Specs",
               color: "from-slate-950 via-slate-900 to-teal-950",
@@ -1016,7 +986,7 @@ export default function HomePage() {
                 Cryptographic Trust Built Into Every Layer
               </h2>
               <p className="text-sm text-slate-300 leading-relaxed">
-                From the HYP2003 FIPS-validated token to AES-256 document storage and CCA-approved certificate chains, Nova is engineered for zero-compromise digital identity and statutory compliance.
+                From the FIPS 140-3 validated HYP2003 token to AES-256 document storage and CCA-approved certificate chains, Nova is engineered for zero-compromise digital identity and statutory compliance.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
@@ -1071,14 +1041,14 @@ export default function HomePage() {
         >
           <div className="text-center space-y-2 mb-10 relative z-10">
             <span className="text-xs font-bold text-teal-400 uppercase tracking-widest">Hardware Intelligence</span>
-            <h2 className="text-2xl sm:text-3xl font-black">HYP2003 Technical Breakdown</h2>
+            <h2 className="text-2xl sm:text-3xl font-black">HYP2003 FIPS 140-3 Technical Breakdown</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
             <motion.div whileHover={{ y: -8, scale: 1.02 }} className="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-teal-400/50 transition-all duration-300 space-y-2">
               <Cpu className="text-teal-400 mb-2" size={28} />
               <h3 className="text-base font-bold text-white">Crypto Engine & Storage</h3>
               <p className="text-xs text-slate-300 leading-relaxed">
-                64 KB EEPROM memory for digital signing & encryption. Onboard private key generation ensures non-extractable certificate security.
+                64 KB EEPROM memory for digital signing & encryption. FIPS 140-3 Level 3 onboard private key generation ensures non-extractable certificate security.
               </p>
               <p className="text-[11px] text-teal-300 font-mono pt-2">• Algorithms: RSA 2048~4096, AES, SHA, ECDSA</p>
             </motion.div>
@@ -1219,7 +1189,7 @@ export default function HomePage() {
         >
           {[
             {
-              quote: "Nova cut our monthly GST and ITR cycle from 9 days to under 48 hours. The HYP2003 tokens work flawlessly across our 40+ machines.",
+              quote: "Nova cut our monthly GST and ITR cycle from 9 days to under 48 hours. The FIPS 140-3 HYP2003 tokens work flawlessly across our 40+ machines.",
               name: "Priya Mehta",
               role: "Partner, Mehta & Associates CA",
               initials: "PM",
@@ -1298,7 +1268,7 @@ export default function HomePage() {
           </motion.div>
           <motion.div 
             initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             whileHover={{ scale: 1.02, y: -4 }} 
@@ -1331,7 +1301,7 @@ export default function HomePage() {
         <div className="space-y-3">
           {[
             { q: "Where can I find the best DSC provider in India for Class 3 digital signatures?", a: "Nova is a trusted, authorized CCA approved DSC provider in India offering immediate activation, online purchase, and paperless Class 3 digital signature certificates." },
-            { q: "How do I buy FIPS 140-3 HYP2003 USB tokens near me?", a: "You can purchase certified HYP2003 cryptographic USB tokens online or through our local verified hardware token distributors across India with instant pickup and vendor support." },
+            { q: "How do I buy FIPS 140-3 HYP2003 USB tokens near me?", a: "You can purchase certified FIPS 140-3 HYP2003 cryptographic USB tokens online or through our local verified hardware token distributors across India with instant pickup and vendor support." },
             { q: "Are Nova's eSign and DSC solutions compliant with MCA and GST portals?", a: "Yes, our Class 3 digital signatures and cryptographic tokens are fully compatible with MCA21 company incorporation, SPICe+, GST return filing, ICEGATE, and income tax e-filing." },
             { q: "Can I manage ITR filings and eSign services on the same platform?", a: "Yes. Nova combines income tax preparation, GST returns, eSign portal workflows, and cryptographic token management under one ecosystem." },
             { q: "Are Nova's eSign solutions legally valid under Indian law?", a: "Yes, Nova eSign solutions comply fully with the Indian IT Act, ensuring legally binding signatures across contracts, tax forms, and internal approvals." },
@@ -1392,7 +1362,7 @@ export default function HomePage() {
               href="/products/hyp2003" 
               className="px-6 py-3.5 bg-white hover:bg-slate-50 text-teal-900 font-bold text-xs rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 block"
             >
-              Explore HYP2003 Hardware
+              Explore FIPS 140-3 Hardware
             </Link>
           </motion.div>
         </motion.div>
