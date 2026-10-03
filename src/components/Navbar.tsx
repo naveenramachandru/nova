@@ -162,7 +162,7 @@ export default function Navbar() {
               </button>
 
               {activeMenu === category && (
-                <div className="absolute top-full left-0 w-[460px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-2">
+                <div className="absolute top-full -left-10 w-[540px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-3 transition-all duration-200">
                   <div className="col-span-2 flex items-center justify-between pb-2 border-b border-slate-800/80 mb-1 px-1">
                     <span className="text-[11px] font-bold text-teal-400 tracking-wider uppercase flex items-center gap-1.5">
                       <Sparkles size={12} /> {category}
@@ -175,7 +175,8 @@ export default function Navbar() {
                       href={`/page/${item.id}`}
                       className="group/item p-2.5 rounded-xl hover:bg-slate-800/80 transition duration-150 border border-transparent hover:border-slate-700/50"
                     >
-                      <div className="text-xs font-semibold text-slate-200 group-hover/item:text-teal-300 transition flex items-center justify-between">
+                      {/* Text size changes from text-xs to text-sm on hover */}
+                      <div className="text-xs group-hover/item:text-sm font-semibold text-slate-200 group-hover/item:text-teal-300 transition-all duration-150 flex items-center justify-between">
                         <span>{item.title}</span>
                         <ArrowRight size={12} className="opacity-0 group-hover/item:opacity-100 -translate-x-1 group-hover/item:translate-x-0 transition-all text-teal-400" />
                       </div>
@@ -206,7 +207,7 @@ export default function Navbar() {
             </button>
 
             {activeMenu === "Financial Services" && (
-              <div className="absolute top-full -left-20 w-[640px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-5 grid grid-cols-4 gap-4">
+              <div className="absolute top-full -left-20 w-[640px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-5 grid grid-cols-4 gap-4 transition-all duration-200">
                 <div className="col-span-4 border-b border-slate-800 pb-2 flex justify-between items-center">
                   <span className="text-[11px] font-bold text-teal-400 tracking-wider uppercase flex items-center gap-1">
                     <CheckCircle2 size={12} /> Compliance & Financial Services
@@ -222,7 +223,8 @@ export default function Navbar() {
                       <Link
                         key={item.id}
                         href={`/page/${item.id}`}
-                        className="block text-xs text-slate-400 hover:text-teal-300 transition hover:translate-x-0.5 duration-150 py-1"
+                        /* Text size increases from text-xs to text-sm on hover for Financial Desk links as well */
+                        className="block text-xs hover:text-sm text-slate-400 hover:text-teal-300 transition-all hover:translate-x-0.5 duration-150 py-1 font-medium"
                       >
                         {item.title}
                       </Link>
@@ -251,7 +253,7 @@ export default function Navbar() {
               </button>
 
               {activeMenu === category && (
-                <div className="absolute top-full right-0 w-[460px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-2">
+                <div className="absolute top-full -left-10 w-[540px] bg-slate-900/95 border border-slate-800 shadow-2xl backdrop-blur-xl rounded-2xl p-4 grid grid-cols-2 gap-3 transition-all duration-200">
                   <div className="col-span-2 flex items-center justify-between pb-2 border-b border-slate-800/80 mb-1 px-1">
                     <span className="text-[11px] font-bold text-teal-400 tracking-wider uppercase flex items-center gap-1.5">
                       <Sparkles size={12} /> {category}
@@ -264,7 +266,7 @@ export default function Navbar() {
                       href={`/page/${item.id}`}
                       className="group/item p-2.5 rounded-xl hover:bg-slate-800/80 transition duration-150 border border-transparent hover:border-slate-700/50"
                     >
-                      <div className="text-xs font-semibold text-slate-200 group-hover/item:text-teal-300 transition flex items-center justify-between">
+                      <div className="text-xs group-hover/item:text-sm font-semibold text-slate-200 group-hover/item:text-teal-300 transition-all duration-150 flex items-center justify-between">
                         <span>{item.title}</span>
                         <ArrowRight size={12} className="opacity-0 group-hover/item:opacity-100 -translate-x-1 group-hover/item:translate-x-0 transition-all text-teal-400" />
                       </div>

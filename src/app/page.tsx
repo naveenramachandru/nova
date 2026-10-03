@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
@@ -39,22 +39,131 @@ import {
   Layout,
 } from "lucide-react";
 
+/**
+ * Advanced Cryptographic Token & eSign Canvas Background Animation
+ * Renders repeatedly looping gradient orbs, secure data nodes, and cryptographic pulses representing HYP2003 & eSign.
+ */
+function CanvasPainterBackground() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Cryptographic token & eSign gradient orbs configuration
+    const orbs = [
+      { x: width * 0.15, y: height * 0.2, radius: 340, vx: 0.4, vy: 0.3, color1: "rgba(20, 184, 166, 0.25)", color2: "rgba(20, 184, 166, 0)" },
+      { x: width * 0.85, y: height * 0.35, radius: 400, vx: -0.35, vy: 0.4, color1: "rgba(59, 130, 246, 0.2)", color2: "rgba(59, 130, 246, 0)" },
+      { x: width * 0.5, y: height * 0.75, radius: 380, vx: 0.3, vy: -0.35, color1: "rgba(99, 102, 241, 0.2)", color2: "rgba(99, 102, 241, 0)" },
+      { x: width * 0.25, y: height * 0.9, radius: 300, vx: -0.3, vy: -0.25, color1: "rgba(16, 185, 129, 0.18)", color2: "rgba(16, 185, 129, 0)" },
+    ];
+
+    const nodes = Array.from({ length: 18 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      radius: Math.random() * 3 + 1.5,
+      alpha: Math.random() * 0.5 + 0.2,
+    }));
+
+    let angle = 0;
+
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      angle += 0.006;
+
+      orbs.forEach((orb, index) => {
+        orb.x += Math.cos(angle + index * 1.5) * orb.vx;
+        orb.y += Math.sin(angle + index * 1.5) * orb.vy;
+
+        if (orb.x < -200) orb.x = width + 200;
+        if (orb.x > width + 200) orb.x = -200;
+        if (orb.y < -200) orb.y = height + 200;
+        if (orb.y > height + 200) orb.y = -200;
+
+        const gradient = ctx.createRadialGradient(orb.x, orb.y, 0, orb.x, orb.y, orb.radius);
+        gradient.addColorStop(0, orb.color1);
+        gradient.addColorStop(1, orb.color2);
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.strokeStyle = "rgba(20, 184, 166, 0.08)";
+      ctx.lineWidth = 1;
+
+      nodes.forEach((node, i) => {
+        node.x += node.vx;
+        node.y += node.vy;
+
+        if (node.x < 0 || node.x > width) node.vx *= -1;
+        if (node.y < 0 || node.y > height) node.vy *= -1;
+
+        ctx.fillStyle = `rgba(20, 184, 166, ${node.alpha})`;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx = nodes[j].x - node.x;
+          const dy = nodes[j].y - node.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 130) {
+            ctx.strokeStyle = `rgba(59, 130, 246, ${0.12 * (1 - dist / 130)})`;
+            ctx.beginPath();
+            ctx.moveTo(node.x, node.y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 pointer-events-none -z-10 w-full h-full"
+    />
+  );
+}
+
 export default function HomePage() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<"esign" | "itr" | "token" | "gst">("esign");
 
   const containerRef = useRef<HTMLDivElement>(null);
   
-  // Track global page scroll progress for continuous scrollytelling transforms
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
-
-  // Dynamic Scrollytelling Background Parallax Speeds
-  const bgLightY1 = useTransform(scrollYProgress, [0, 1], ["0%", "60%"]);
-  const bgLightY2 = useTransform(scrollYProgress, [0, 1], ["0%", "-50%"]);
-  const bgLightScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.3, 0.85]);
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroScroll } = useScroll({
@@ -62,67 +171,50 @@ export default function HomePage() {
     offset: ["start start", "end start"],
   });
 
-  const heroY = useTransform(heroScroll, [0, 1], ["0%", "35%"]);
-  const heroScale = useTransform(heroScroll, [0, 1], [1, 0.92]);
-  const heroCardParallax = useTransform(heroScroll, [0, 1], ["0%", "-15%"]);
+  const heroY = useTransform(heroScroll, [0, 1], ["0%", "20%"]);
+  const heroOpacity = useTransform(heroScroll, [0, 0.85], [1, 0.4]);
+  const cardY = useTransform(heroScroll, [0, 1], ["0%", "-12%"]);
 
-  // Reusable Scrollytelling Reveal Variants
   const scrollyContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
+      transition: { staggerChildren: 0.12, delayChildren: 0.08 },
     },
   };
 
   const scrollyItem = {
-    hidden: { opacity: 0, y: 50, scale: 0.95 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      scale: 1, 
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const } 
+    hidden: { opacity: 0, y: 36, scale: 0.97 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.7, ease: [0.25, 0.1, 0.25, 1] as const },
     },
   };
 
-  // Split Text Mask Animation Variants (Reveal from bottom through hidden overflow container)
   const maskContainer = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.08, delayChildren: 0.15 },
+      transition: { staggerChildren: 0.1, delayChildren: 0.12 },
     },
   };
 
   const maskLine = {
     hidden: { y: "110%", opacity: 0 },
-    visible: { 
-      y: "0%", 
-      opacity: 1, 
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } 
+    visible: {
+      y: "0%",
+      opacity: 1,
+      transition: { duration: 0.9, ease: [0.25, 0.1, 0.25, 1] as const },
     },
   };
 
   return (
     <div ref={containerRef} className="space-y-32 pb-28 pt-20 sm:pt-24 bg-gradient-to-b from-slate-50 via-teal-50/20 via-blue-50/20 to-slate-50 text-slate-900 overflow-hidden relative">
       
-      {/* Background Animated Ambient Lights with Scrollytelling Parallax */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-        <motion.div 
-          style={{ y: bgLightY1, scale: bgLightScale }}
-          animate={{ opacity: [0.25, 0.55, 0.25], x: [0, 70, 0], y: [0, 50, 0] }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-20 -left-20 w-[650px] h-[650px] bg-teal-400/30 rounded-full blur-[140px]"
-        />
-        <motion.div 
-          style={{ y: bgLightY2 }}
-          animate={{ opacity: [0.2, 0.5, 0.2], x: [0, -60, 0], y: [0, -70, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          className="absolute top-1/3 -right-20 w-[650px] h-[650px] bg-blue-400/30 rounded-full blur-[140px]"
-        />
-      </div>
+      <CanvasPainterBackground />
 
-      {/* Expanded JSON-LD Structured Data with High-Performance SEO Keyword Cluster */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -147,124 +239,166 @@ export default function HomePage() {
         }}
       />
 
-      {/* 1. SCROLLYTELLING HERO SECTION WITH MASKED SPLIT TEXT */}
-      <section ref={heroRef} className="relative pb-10 overflow-hidden">
-        <motion.div style={{ y: heroY, scale: heroScale }} className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center max-w-4xl mx-auto space-y-6">
-            
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.7, y: -30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-teal-500/10 via-blue-500/10 to-indigo-500/10 border border-teal-500/30 text-teal-900 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-widest shadow-sm backdrop-blur-md"
-            >
-              <Sparkles size={14} className="text-teal-600 animate-spin" style={{ animationDuration: "6s" }} />
-              <span>TOP DIGITAL SIGNATURE CERTIFICATE & FIPS 140-3 HYP2003 TOKEN PROVIDER INDIA</span>
-            </motion.div>
+      {/* 1. HERO — Modern Redesigned Asymmetric Layout with Motion Image/Graphic Animation */}
+      <section ref={heroRef} className="relative pb-24 pt-4 overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 -z-10">
+          <div className="absolute top-[-10%] right-[-5%] w-[550px] h-[550px] rounded-full bg-teal-300/20 blur-[110px]" />
+          <div className="absolute bottom-[-5%] left-[-5%] w-[450px] h-[450px] rounded-full bg-blue-300/15 blur-[100px]" />
+        </div>
 
-            {/* Split Text Mask Heading */}
-            <motion.h1 
-              variants={maskContainer}
-              initial="hidden"
-              animate="visible"
-              className="text-4xl sm:text-6xl font-black tracking-tight leading-tight text-slate-900 flex flex-col items-center justify-center gap-1"
-            >
-              <div className="overflow-hidden py-1">
-                <motion.span variants={maskLine} className="block">
-                  Authorized Class 3 DSC, FIPS 140-3 Tokens & eSign,
-                </motion.span>
-              </div>
-              <div className="overflow-hidden py-1">
-                <motion.span variants={maskLine} className="block bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                  Unified.
-                </motion.span>
-              </div>
-            </motion.h1>
+        <motion.div
+          style={{ y: heroY, opacity: heroOpacity }}
+          className="max-w-7xl mx-auto px-4 sm:px-6"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center min-h-[75vh]">
 
-            <motion.p 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.35, ease: "easeOut" }}
-              className="text-lg sm:text-2xl font-bold text-slate-700 tracking-tight"
-            >
-              India&apos;s Trusted CCA Approved Provider for Tax, GST, MCA & Compliance.
-            </motion.p>
-
-            <motion.div 
-              style={{ y: heroCardParallax }}
-              initial={{ opacity: 0, y: 50, scale: 0.96 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.9, delay: 0.45, ease: "easeOut" }}
-              className="bg-white/90 backdrop-blur-2xl border border-white/80 p-6 sm:p-10 rounded-3xl text-left shadow-2xl shadow-teal-900/10 space-y-6 relative overflow-hidden group"
-            >
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 via-blue-500 to-indigo-500" />
-
-              <div className="border-b border-slate-100 pb-4">
-                <motion.h2 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                  className="text-lg sm:text-xl font-black text-slate-900"
-                >
-                  Fast DSC Issuance, FIPS 140-3 Cryptographic Tokens & Legal eSign Solutions.
-                </motion.h2>
-                <p className="text-xs sm:text-sm text-slate-500 mt-1">
-                  Seamless online Class 3 DSC purchasing, instant activation, and wholesale hardware distribution for CAs, enterprises, and tax filing professionals across India.
-                </p>
-              </div>
-
-              <motion.div 
-                variants={scrollyContainer}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-bold text-slate-700"
+            {/* LEFT COLUMN — Typography & CTAs (Span 7) */}
+            <div className="lg:col-span-7 space-y-8 text-left">
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal-50 border border-teal-200 text-teal-800 text-xs font-bold shadow-sm"
               >
-                {[
-                  { label: "Company Registrations", icon: Building2 },
-                  { label: "Income Tax & ITR Filing", icon: Calculator },
-                  { label: "GST & Invoicing", icon: Receipt },
-                  { label: "Paperless eSign", icon: PenTool },
-                  { label: "FIPS 140-3 Hardware", icon: ShieldCheck },
-                ].map((item, idx) => (
-                  <motion.div
-                    key={idx}
-                    variants={scrollyItem}
-                    whileHover={{ scale: 1.05, y: -6 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="bg-slate-50/90 border border-slate-200/80 p-3.5 rounded-2xl flex flex-col items-center justify-center text-center gap-2 shadow-sm hover:shadow-xl hover:shadow-teal-900/15 hover:border-teal-400 hover:bg-white transition-all duration-300 cursor-pointer"
-                  >
-                    <div className="w-9 h-9 rounded-xl bg-teal-100/60 flex items-center justify-center text-teal-600 transition-colors group-hover:bg-teal-500 group-hover:text-white">
-                      <item.icon size={20} />
-                    </div>
-                    <span>{item.label}</span>
-                  </motion.div>
-                ))}
+                <Sparkles size={14} className="text-teal-600 animate-spin" />
+                <span>Authorized CCA Approved & FIPS 140-3 Infrastructure</span>
               </motion.div>
 
-              <div className="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                <p>
-                  As a leading authorized digital signature certificate vendor in India, we deliver secure cryptographic keys, MCA21 company incorporation bundles, GST return signing, and DGFT tokens instantly.
-                </p>
-                <p className="font-medium text-slate-700">
-                  Consolidate your digital workflows with FIPS 140-3 certified HYP2003 hardware tokens and IT Act compliant eSign API integrations.
-                </p>
-              </div>
+              <motion.h1
+                variants={maskContainer}
+                initial="hidden"
+                animate="visible"
+                className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight leading-[1.05] text-slate-900"
+              >
+                <div className="overflow-hidden">
+                  <motion.span variants={maskLine} className="block">
+                    Next-Gen
+                  </motion.span>
+                </div>
+                <div className="overflow-hidden">
+                  <motion.span variants={maskLine} className="block">
+                    Cryptographic
+                  </motion.span>
+                </div>
+                <div className="overflow-hidden">
+                  <motion.span
+                    variants={maskLine}
+                    className="block bg-gradient-to-r from-teal-600 via-blue-600 to-indigo-600 bg-clip-text text-transparent"
+                  >
+                    Tokens & eSign.
+                  </motion.span>
+                </div>
+              </motion.h1>
 
-              <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p className="text-xs font-bold text-teal-800">
-                  Official CCA approved partner for Class 3 DSC tokens and enterprise tax compliance software.
-                </p>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.45, ease: [0.25, 0.1, 0.25, 1] }}
+                className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl"
+              >
+                Empowering CAs, enterprises, and tax professionals across India with ultra-secure hardware tokens, instantaneous digital signatures, and automated GST workflows.
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+                className="flex flex-wrap items-center gap-4 pt-2"
+              >
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
                   <Link
                     href="/products/hyp2003"
-                    className="w-full sm:w-auto px-6 py-3.5 bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-500 hover:to-blue-500 text-white font-bold text-xs rounded-xl shadow-lg shadow-teal-600/30 hover:shadow-2xl hover:shadow-teal-600/50 transition-all duration-300 flex items-center justify-center gap-2 shrink-0 group"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-teal-500 to-blue-600 text-white text-sm font-bold shadow-xl shadow-teal-500/25 hover:shadow-2xl hover:shadow-teal-500/35 transition-all"
                   >
-                    <span>Explore FIPS 140-3 HYP2003 Token</span>
-                    <ArrowRight size={14} className="group-hover:translate-x-1.5 transition-transform" />
+                    Explore HYP2003 Token
+                    <ArrowRight size={16} />
                   </Link>
                 </motion.div>
-              </div>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                  <Link
+                    href="#solutions"
+                    className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-slate-700 text-sm font-bold border border-slate-200 shadow-sm hover:shadow-md hover:border-teal-300 transition-all"
+                  >
+                    View Platform Features
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </div>
+
+            {/* RIGHT COLUMN — Graphic Image Motion Animation Card on Scroll (Span 5) */}
+            <motion.div
+              style={{ y: cardY }}
+              initial={{ opacity: 0, x: 40, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 1, delay: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+              className="lg:col-span-5 flex justify-center lg:justify-end"
+            >
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="w-full max-w-[440px] bg-slate-900 text-white backdrop-blur-2xl border border-slate-800 rounded-[2rem] shadow-2xl shadow-teal-950/40 overflow-hidden relative"
+              >
+                <div className="h-2 w-full bg-gradient-to-r from-teal-400 via-blue-500 to-indigo-500" />
+
+                <div className="p-7 sm:p-8 space-y-6">
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400">
+                        <ShieldCheck size={22} />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-white tracking-wide">HYP2003 Hardware Unit</h3>
+                        <p className="text-[11px] text-teal-400 font-mono">FIPS 140-3 Level 3 Active</p>
+                      </div>
+                    </div>
+                    <span className="text-[10px] font-bold text-teal-300 bg-teal-500/20 border border-teal-400/30 px-3 py-1 rounded-xl font-mono">
+                      SECURE
+                    </span>
+                  </div>
+
+                  {/* Graphic Motion Box */}
+                  <div className="relative h-44 rounded-2xl overflow-hidden bg-gradient-to-br from-teal-950/60 via-slate-900 to-indigo-950/60 border border-slate-800 p-5 flex flex-col justify-between">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-teal-500/10 via-transparent to-transparent pointer-events-none" />
+                    
+                    <div className="flex justify-between items-center relative z-10">
+                      <span className="text-[10px] font-mono text-slate-400">CRYPTOGRAPHIC_STREAM</span>
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-400" />
+                      </span>
+                    </div>
+
+                    <div className="flex items-end justify-center gap-2 h-16 relative z-10 py-1">
+                      {[40, 75, 55, 90, 100, 65, 85, 45, 80, 60].map((height, i) => (
+                        <motion.div
+                          key={i}
+                          animate={{ height: [`${height}%`, `${Math.max(20, height - 30)}%`, `${height}%`] }}
+                          transition={{ duration: 1.5 + (i * 0.1), repeat: Infinity, ease: "easeInOut" }}
+                          className="w-3 rounded-full bg-gradient-to-t from-teal-500 to-blue-400"
+                        />
+                      ))}
+                    </div>
+
+                    <div className="flex justify-between items-center text-[11px] text-slate-300 font-mono relative z-10 border-t border-slate-800/80 pt-2">
+                      <span>RSA 4096-bit</span>
+                      <span className="text-teal-400 font-bold">Verified</span>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3 pt-1">
+                    <div className="bg-slate-800/60 border border-slate-700/50 p-3 rounded-xl text-center">
+                      <div className="text-xs text-slate-400">Tokens Deployed</div>
+                      <div className="text-sm font-black text-teal-300 font-mono">2.6 Crore+</div>
+                    </div>
+                    <div className="bg-slate-800/60 border border-slate-700/50 p-3 rounded-xl text-center">
+                      <div className="text-xs text-slate-400">Compliance</div>
+                      <div className="text-sm font-black text-blue-300 font-mono">100% CCA</div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
+
           </div>
         </motion.div>
       </section>
@@ -365,7 +499,6 @@ export default function HomePage() {
           viewport={{ once: true }}
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {/* 1. Anime-Inspired */}
           <motion.div
             variants={scrollyItem}
             whileHover={{ y: -10, scale: 1.03 }}
@@ -394,7 +527,6 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* 2. Stop-Motion */}
           <motion.div
             variants={scrollyItem}
             whileHover={{ y: -10, scale: 1.03 }}
@@ -423,7 +555,6 @@ export default function HomePage() {
             </div>
           </motion.div>
 
-          {/* 3. Motion Graphics */}
           <motion.div
             variants={scrollyItem}
             whileHover={{ y: -10, scale: 1.03 }}
@@ -455,7 +586,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. INTERACTIVE SOLUTIONS TABBED SHOWCASE */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6">
+      <section id="solutions" className="max-w-7xl mx-auto px-4 sm:px-6">
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
